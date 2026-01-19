@@ -1,7 +1,4 @@
 name = "yeli"
 compatibility_date = "2026-01-11"
 
-[site]
-bucket = "."
-entry-point = "."
-
+main = "index.js" 
