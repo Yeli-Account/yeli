@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>二进制替换加密解密工具</title>
+    <title>工具集</title>
     <style>
         * {
             margin: 0;
@@ -16,13 +16,68 @@
             background-color: #121212;
             color: #e0e0e0;
             min-height: 100vh;
-            padding: 30px 0;
+            padding: 60px 0;
             line-height: 1.5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .container {
             max-width: 820px;
+            width: 100%;
             margin: 0 auto;
             padding: 0 20px;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            padding: 40px 30px;
+            border: 1px solid #2d2d2d;
+            text-align: center;
+        }
+        h1 {
+            color: #f5f5f5;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            border-left: 4px solid #4a6fa5;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            padding: 12px 20px;
+            display: inline-block;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+        .tool-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 20px;
+        }
+        .tool-card {
+            background-color: #252525;
+            border-radius: 14px;
+            border: 1px solid #383838;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .tool-card:hover {
+            transform: translateY(-8px);
+            border-color: #4a6fa5;
+            box-shadow: 0 8px 20px rgba(74, 111, 165, 0.2);
+            background-color: #272727;
+        }
+        .tool-card h3 {
+            color: #c8d8e8;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        .tool-card p {
+            color: #b8b8b8;
+            font-size: 1rem;
+            line-height: 1.6;
         }
         .island-toast {
             position: fixed;
@@ -46,306 +101,62 @@
             transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
-        .card {
-            background-color: #1e1e1e;
-            border-radius: 18px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid #2d2d2d;
-        }
-        h2 {
-            color: #f5f5f5;
-            margin-bottom: 24px;
-            font-size: 1.55rem;
-            border-left: 4px solid #4a6fa5;
-            border-top-left-radius: 6px;
-            border-bottom-left-radius: 6px;
-            padding: 10px 16px;
-            line-height: 1.4;
-            font-weight: 600;
-        }
-        .form-group {
-            margin-bottom: 22px;
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-            color: #b8b8b8;
-            font-weight: 500;
-            font-size: 1.05rem;
-        }
-        textarea, input[type="text"] {
-            width: 100%;
-            padding: 14px 16px;
-            background-color: #252525;
-            border: 1px solid #383838;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            resize: vertical;
-            color: #e8e8e8;
-            white-space: pre-wrap;
-            word-break: break-all;
-            outline: none;
-        }
-        textarea {
-            min-height: 140px;
-            line-height: 1.6;
-        }
-        textarea:focus, input[type="text"]:focus {
-            border-color: #4a6fa5;
-            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
-            background-color: #272727;
-        }
-        .replace-group {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        .replace-item {
-            flex: 1;
-        }
-        button {
-            background-color: #4a6fa5;
-            color: #fff;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            cursor: pointer;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
-        button:hover {
-            background-color: #5a8ac5;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(74, 111, 165, 0.3);
-        }
-        button:active {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(74, 111, 165, 0.2);
-        }
-        .result {
-            margin-top: 24px;
-            padding: 20px;
-            background-color: #252525;
-            border-radius: 14px;
-            border: 1px solid #383838;
-        }
-        .result h3 {
-            color: #c8d8e8;
-            margin-bottom: 12px;
-            font-size: 1.15rem;
-            font-weight: 600;
-        }
-        .copy-btn {
-            margin-top: 12px;
-            padding: 10px 20px;
-            font-size: 0.95rem;
-            background-color: #383838;
-            border-radius: 10px;
-        }
-        .copy-btn:hover {
-            background-color: #454545;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        .error {
-            color: #ff6b6b;
-            margin-top: 8px;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
         @media (max-width: 576px) {
-            .replace-group {
-                flex-direction: column;
-                gap: 22px;
+            body {
+                padding: 40px 0;
             }
             .card {
-                padding: 24px;
+                padding: 30px 20px;
             }
-            h2 {
-                font-size: 1.4rem;
-                padding: 8px 14px;
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 30px;
+                padding: 10px 16px;
             }
-            button {
-                padding: 12px 24px;
-                font-size: 1rem;
+            .tool-group {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
-            textarea, input[type="text"] {
-                padding: 12px 14px;
-                font-size: 1rem;
+            .tool-card {
+                padding: 25px 16px;
+            }
+            .tool-card h3 {
+                font-size: 1.2rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="island-toast" id="toast"></div>
-
     <div class="container">
         <div class="card">
-            <h2>加密</h2>
-            <div class="form-group">
-                <label for="encryptPlaintext">未加密内容</label>
-                <textarea id="encryptPlaintext" placeholder="请输入需要加密的文字"></textarea>
-                <div id="encryptPlainError" class="error"></div>
-            </div>
-            <div class="replace-group">
-                <div class="replace-item">
-                    <label for="encryptReplace0">二进制“0”替换为</label>
-                    <input type="text" id="encryptReplace0" placeholder="输入替换内容">
+            <h1>实用工具集</h1>
+            <div class="tool-group">
+                <div class="tool-card" onclick="goToTool1()">
+                    <h3>二进制替换加解密</h3>
+                    <p>文本转二进制后自定义替换字符，实现简单加解密，反向操作即可还原</p>
                 </div>
-                <div class="replace-item">
-                    <label for="encryptReplace1">二进制“1”替换为</label>
-                    <input type="text" id="encryptReplace1" placeholder="输入替换内容">
+                <div class="tool-card" onclick="goToTool2()">
+                    <h3>JSON深度合并</h3>
+                    <p>两个JSON对象深度融合，嵌套对象递归合并，新键追加，同键后者覆盖前者</p>
                 </div>
-            </div>
-            <button onclick="encrypt()">执行加密</button>
-            <div class="result">
-                <h3>加密结果</h3>
-                <textarea id="ciphertext" readonly placeholder="加密后的内容将显示在这里"></textarea>
-                <button class="copy-btn" onclick="copyText('ciphertext')">复制加密结果</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>解密</h2>
-            <div class="form-group">
-                <label for="decryptCiphertext">加密内容</label>
-                <textarea id="decryptCiphertext" placeholder="请粘贴加密后的内容"></textarea>
-                <div id="decryptCipherError" class="error"></div>
-            </div>
-            <div class="replace-group">
-                <div class="replace-item">
-                    <label for="decryptReplace0">二进制“0”对应替换内容</label>
-                    <input type="text" id="decryptReplace0" placeholder="输入加密时替换0的内容">
-                </div>
-                <div class="replace-item">
-                    <label for="decryptReplace1">二进制“1”对应替换内容</label>
-                    <input type="text" id="decryptReplace1" placeholder="输入加密时替换1的内容">
-                </div>
-            </div>
-            <button onclick="decrypt()">执行解密</button>
-            <div class="result">
-                <h3>解密结果</h3>
-                <textarea id="decryptedText" readonly placeholder="解密后的原文将显示在这里"></textarea>
-                <button class="copy-btn" onclick="copyText('decryptedText')">复制解密结果</button>
             </div>
         </div>
     </div>
-
     <script>
         const toast = document.getElementById('toast');
-        const encryptPlaintext = document.getElementById('encryptPlaintext');
-        const encryptReplace0 = document.getElementById('encryptReplace0');
-        const encryptReplace1 = document.getElementById('encryptReplace1');
-        const ciphertext = document.getElementById('ciphertext');
-        const encryptPlainError = document.getElementById('encryptPlainError');
-        const decryptCiphertext = document.getElementById('decryptCiphertext');
-        const decryptReplace0 = document.getElementById('decryptReplace0');
-        const decryptReplace1 = document.getElementById('decryptReplace1');
-        const decryptedText = document.getElementById('decryptedText');
-        const decryptCipherError = document.getElementById('decryptCipherError');
-
         function showToast(message) {
             toast.textContent = message;
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
+            setTimeout(() => toast.classList.remove('show'), 2000);
         }
-
-        function clearErrors() {
-            encryptPlainError.textContent = '';
-            decryptCipherError.textContent = '';
+        function goToTool1() {
+            showToast('前往二进制加解密工具');
+            window.location.href = '1.html';
         }
-
-        async function copyText(elementId) {
-            const textarea = document.getElementById(elementId);
-            const text = textarea.value;
-            const errorMessages = ['加密异常，请重试', '解密异常，请检查替换内容与加密时一致'];
-            if (!text || errorMessages.includes(text)) return showToast('无有效内容可复制');
-            try {
-                await navigator.clipboard.writeText(text);
-                showToast('复制成功');
-            } catch {
-                textarea.select();
-                document.body.createTextRange().selectNodeContents(textarea);
-                document.execCommand('copy');
-                showToast('复制成功');
-            }
-        }
-
-        function textToBinary(text) {
-            const encoder = new TextEncoder();
-            return Array.from(encoder.encode(text)).map(byte => byte.toString(2).padStart(8, '0')).join('');
-        }
-
-        function binaryToText(binaryStr) {
-            try {
-                if (binaryStr.length % 8 !== 0) throw new Error();
-                const byteArray = [];
-                for (let i = 0; i < binaryStr.length; i += 8) {
-                    byteArray.push(parseInt(binaryStr.slice(i, i + 8), 2));
-                }
-                return new TextDecoder().decode(new Uint8Array(byteArray));
-            } catch {
-                throw new Error('二进制格式错误');
-            }
-        }
-
-        function encrypt() {
-            clearErrors();
-            const plain = encryptPlaintext.value.trim();
-            const rep0 = encryptReplace0.value.trim();
-            const rep1 = encryptReplace1.value.trim();
-            let valid = true;
-
-            if (!plain) encryptPlainError.textContent = '请输入未加密内容';
-            else if (!rep0 || !rep1) encryptPlainError.textContent = '“0”和“1”的替换内容不能为空';
-            else if (rep0 === rep1) encryptPlainError.textContent = '“0”和“1”的替换内容不能相同';
-            else valid = false;
-
-            if (valid) return;
-
-            try {
-                const encryptedChars = textToBinary(plain).split('').map(bit => bit === '0' ? rep0 : rep1);
-                ciphertext.value = encryptedChars.join(',');
-                showToast('加密完成');
-            } catch {
-                ciphertext.value = '加密异常，请重试';
-                showToast('加密失败');
-            }
-        }
-
-        function decrypt() {
-            clearErrors();
-            const cipher = decryptCiphertext.value.trim();
-            const rep0 = decryptReplace0.value.trim();
-            const rep1 = decryptReplace1.value.trim();
-            let valid = true;
-
-            if (!cipher) decryptCipherError.textContent = '请粘贴加密后的内容';
-            else if (!rep0 || !rep1) decryptCipherError.textContent = '请输入“0”和“1”对应的替换内容';
-            else if (rep0 === rep1) decryptCipherError.textContent = '“0”和“1”的替换内容不能相同';
-            else valid = false;
-
-            if (valid) return;
-
-            try {
-                const binaryParts = cipher.split(',').filter(part => part).map(part => {
-                    if (part === rep0) return '0';
-                    if (part === rep1) return '1';
-                    throw new Error();
-                });
-                decryptedText.value = binaryToText(binaryParts.join(''));
-                showToast('解密完成');
-            } catch {
-                decryptedText.value = '解密异常，请检查替换内容与加密时一致';
-                showToast('解密失败');
-            }
+        function goToTool2() {
+            showToast('前往JSON深度合并工具');
+            window.location.href = '2.html';
         }
     </script>
 </body>
