@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>工具集</title>
+    <title>实用工具集</title>
     <style>
         * {
             margin: 0;
@@ -79,28 +79,6 @@
             font-size: 1rem;
             line-height: 1.6;
         }
-        .island-toast {
-            position: fixed;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background-color: #1e1e1e;
-            border: 1px solid #333;
-            border-radius: 18px;
-            padding: 14px 28px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-            z-index: 1000;
-            opacity: 0;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-            font-size: 1rem;
-            font-weight: 500;
-            text-align: center;
-            max-width: 90%;
-        }
-        .island-toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
         @media (max-width: 576px) {
             body {
                 padding: 40px 0;
@@ -127,7 +105,6 @@
     </style>
 </head>
 <body>
-    <div class="island-toast" id="toast"></div>
     <div class="container">
         <div class="card">
             <h1>实用工具集</h1>
@@ -144,18 +121,10 @@
         </div>
     </div>
     <script>
-        const toast = document.getElementById('toast');
-        function showToast(message) {
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
-        }
         function goToTool1() {
-            showToast('前往二进制加解密工具');
             window.location.href = '1.html';
         }
         function goToTool2() {
-            showToast('前往JSON深度合并工具');
             window.location.href = '2.html';
         }
     </script>
