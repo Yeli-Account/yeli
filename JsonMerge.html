@@ -234,18 +234,8 @@
                 showToast('复制成功');
             }
         }
-        function deepMerge(obj1, obj2) {
-            const result = JSON.parse(JSON.stringify(obj1));
-            for (const key in obj2) {
-                if (obj2.hasOwnProperty(key)) {
-                    if (result[key] && typeof result[key] === 'object' && !Array.isArray(result[key]) && obj2[key] && typeof obj2[key] === 'object' && !Array.isArray(obj2[key])) {
-                        result[key] = deepMerge(result[key], obj2[key]);
-                    } else {
-                        result[key] = obj2[key];
-                    }
-                }
-            }
-            return result;
+        function isPlainObject(obj) {
+            return obj && typeof obj === 'object' && !Array.isArray(obj);
         }
         function mergeJson() {
             clearErrors();
@@ -273,8 +263,21 @@
                 return;
             }
             try {
-                const merged = deepMerge(obj1, obj2);
-                mergeResult.value = JSON.stringify(merged, null, 2);
+                const result = Array.isArray(obj1) ? [...obj1] : { ...obj1 };
+                for (const key in obj2) {
+                    if (obj2.hasOwnProperty(key)) {
+                        const val1 = result[key];
+                        const val2 = obj2[key];
+                        if (isPlainObject(val1) && isPlainObject(val2)) {
+                            result[key] = { ...val1, ...val2 };
+                        } else if (Array.isArray(val1) && Array.isArray(val2)) {
+                            result[key] = [...new Set([...val1, ...val2])];
+                        } else {
+                            result[key] = val2;
+                        }
+                    }
+                }
+                mergeResult.value = JSON.stringify(result, null, 2);
                 showToast('合并完成');
             } catch {
                 mergeResult.value = '合并异常，请检查内容';
