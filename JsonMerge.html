@@ -234,8 +234,22 @@
                 showToast('复制成功');
             }
         }
-        function isPlainObject(obj) {
-            return obj && typeof obj === 'object' && !Array.isArray(obj);
+        function deepMerge(target, source) {
+            const result = Array.isArray(target) ? [...target] : { ...target };
+            for (const key in source) {
+                if (source.hasOwnProperty(key)) {
+                    const targetVal = result[key];
+                    const sourceVal = source[key];
+                    if (typeof targetVal === 'object' && targetVal !== null && typeof sourceVal === 'object' && sourceVal !== null) {
+                        result[key] = deepMerge(targetVal, sourceVal);
+                    } else if (Array.isArray(targetVal) && Array.isArray(sourceVal)) {
+                        result[key] = [...targetVal, ...sourceVal];
+                    } else {
+                        result[key] = sourceVal;
+                    }
+                }
+            }
+            return result;
         }
         function mergeJson() {
             clearErrors();
@@ -263,20 +277,7 @@
                 return;
             }
             try {
-                const result = Array.isArray(obj1) ? [...obj1] : { ...obj1 };
-                for (const key in obj2) {
-                    if (obj2.hasOwnProperty(key)) {
-                        const val1 = result[key];
-                        const val2 = obj2[key];
-                        if (isPlainObject(val1) && isPlainObject(val2)) {
-                            result[key] = { ...val1, ...val2 };
-                        } else if (Array.isArray(val1) && Array.isArray(val2)) {
-                            result[key] = [...new Set([...val1, ...val2])];
-                        } else {
-                            result[key] = val2;
-                        }
-                    }
-                }
+                const result = deepMerge(obj1, obj2);
                 mergeResult.value = JSON.stringify(result, null, 2);
                 showToast('合并完成');
             } catch {
