@@ -279,7 +279,7 @@
                 const cleaned = cleanJsonComment(str);
                 return JSON.parse(cleaned);
             } catch (e) {
-                throw new Error('JSON语法错误，含无效字符/注释清理失败');
+                throw new Error('JSON语法错误');
             }
         }
         function mergeJson() {
