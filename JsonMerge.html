@@ -254,25 +254,42 @@
             }
             return Array.isArray(result) ? arrayUniq(result) : result;
         }
+        function cleanJsonComment(str) {
+            let result = str;
+            const blockComment = /\/\*[\s\S]*?\*\//g;
+            const lineComment = /\/\/.*$/gm;
+            const space = /\s+/g;
+            result = result.replace(blockComment, '').replace(lineComment, '').replace(space, ' ').trim();
+            try {
+                JSON.parse(result);
+                return result;
+            } catch {
+                return str;
+            }
+        }
         function mergeJson() {
             clearErrors();
-            const json1Val = json1.value.trim();
-            const json2Val = json2.value.trim();
+            let json1Val = json1.value.trim();
+            let json2Val = json2.value.trim();
             let obj1, obj2;
             if (!json1Val || !json2Val) {
                 jsonError.textContent = '两个输入框都不能为空';
                 return;
             }
+            json1Val = cleanJsonComment(json1Val);
+            json2Val = cleanJsonComment(json2Val);
             try {
                 obj1 = JSON.parse(json1Val);
+                obj1 = JSON.parse(JSON.stringify(obj1));
             } catch {
-                jsonError.textContent = 'JSON 1 格式错误';
+                jsonError.textContent = 'JSON 1 格式错误（含无效注释/语法）';
                 return;
             }
             try {
                 obj2 = JSON.parse(json2Val);
+                obj2 = JSON.parse(JSON.stringify(obj2));
             } catch {
-                jsonError.textContent = 'JSON 2 格式错误';
+                jsonError.textContent = 'JSON 2 格式错误（含无效注释/语法）';
                 return;
             }
             if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) {
