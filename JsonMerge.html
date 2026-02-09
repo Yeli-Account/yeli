@@ -235,12 +235,23 @@
             }
         }
         function arrayUniq(arr) {
-            return arr.filter((item, index, self) => self.findIndex(x => JSON.stringify(x) === JSON.stringify(item)) === index);
+            if (!Array.isArray(arr)) return arr;
+            const seen = new Map();
+            return arr.filter(item => {
+                const key = typeof item === 'object' && item !== null ? JSON.stringify(item) : String(item);
+                if (!seen.has(key)) {
+                    seen.set(key, true);
+                    return true;
+                }
+                return false;
+            });
         }
         function deepMerge(target, source) {
+            if (typeof target !== 'object' || target === null) return source;
+            if (typeof source !== 'object' || source === null) return source;
             const result = Array.isArray(target) ? [...target] : { ...target };
             for (const key in source) {
-                if (source.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
                     const targetVal = result[key];
                     const sourceVal = source[key];
                     if (typeof targetVal === 'object' && targetVal !== null && typeof sourceVal === 'object' && sourceVal !== null) {
@@ -252,56 +263,42 @@
                     }
                 }
             }
-            return Array.isArray(result) ? arrayUniq(result) : result;
+            return result;
         }
         function cleanJsonComment(str) {
-            let result = str;
-            const blockComment = /\/\*[\s\S]*?\*\//g;
-            const lineComment = /\/\/.*$/gm;
-            const space = /\s+/g;
-            result = result.replace(blockComment, '').replace(lineComment, '').replace(space, ' ').trim();
+            if (!str) return '';
+            let cleaned = str
+                .replace(/\/\/.*$/gm, '')
+                .replace(/\/\*[\s\S]*?\*\//g, '')
+                .replace(/\s+/g, ' ')
+                .replace(/,(\s*[}\]])/g, '$1');
+            return cleaned.trim();
+        }
+        function parseJson(str) {
             try {
-                JSON.parse(result);
-                return result;
-            } catch {
-                return str;
+                const cleaned = cleanJsonComment(str);
+                return JSON.parse(cleaned);
+            } catch (e) {
+                throw new Error('JSON语法错误，含无效字符/注释清理失败');
             }
         }
         function mergeJson() {
             clearErrors();
-            let json1Val = json1.value.trim();
-            let json2Val = json2.value.trim();
-            let obj1, obj2;
-            if (!json1Val || !json2Val) {
+            const val1 = json1.value.trim();
+            const val2 = json2.value.trim();
+            if (!val1 || !val2) {
                 jsonError.textContent = '两个输入框都不能为空';
                 return;
             }
-            json1Val = cleanJsonComment(json1Val);
-            json2Val = cleanJsonComment(json2Val);
             try {
-                obj1 = JSON.parse(json1Val);
-                obj1 = JSON.parse(JSON.stringify(obj1));
-            } catch {
-                jsonError.textContent = 'JSON 1 格式错误（含无效注释/语法）';
-                return;
-            }
-            try {
-                obj2 = JSON.parse(json2Val);
-                obj2 = JSON.parse(JSON.stringify(obj2));
-            } catch {
-                jsonError.textContent = 'JSON 2 格式错误（含无效注释/语法）';
-                return;
-            }
-            if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) {
-                jsonError.textContent = '内容必须是对象或数组';
-                return;
-            }
-            try {
-                const result = deepMerge(obj1, obj2);
-                mergeResult.value = JSON.stringify(result, null, 2);
+                const obj1 = parseJson(val1);
+                const obj2 = parseJson(val2);
+                const merged = deepMerge(obj1, obj2);
+                mergeResult.value = JSON.stringify(merged, null, 2);
                 showToast('合并完成');
-            } catch {
-                mergeResult.value = '合并异常，请检查内容';
+            } catch (e) {
+                mergeResult.value = '';
+                jsonError.textContent = e.message;
                 showToast('合并失败');
             }
         }
