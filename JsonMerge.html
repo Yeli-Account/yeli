@@ -234,6 +234,9 @@
                 showToast('复制成功');
             }
         }
+        function arrayUniq(arr) {
+            return arr.filter((item, index, self) => self.findIndex(x => JSON.stringify(x) === JSON.stringify(item)) === index);
+        }
         function deepMerge(target, source) {
             const result = Array.isArray(target) ? [...target] : { ...target };
             for (const key in source) {
@@ -243,13 +246,13 @@
                     if (typeof targetVal === 'object' && targetVal !== null && typeof sourceVal === 'object' && sourceVal !== null) {
                         result[key] = deepMerge(targetVal, sourceVal);
                     } else if (Array.isArray(targetVal) && Array.isArray(sourceVal)) {
-                        result[key] = [...targetVal, ...sourceVal];
+                        result[key] = arrayUniq([...targetVal, ...sourceVal]);
                     } else {
                         result[key] = sourceVal;
                     }
                 }
             }
-            return result;
+            return Array.isArray(result) ? arrayUniq(result) : result;
         }
         function mergeJson() {
             clearErrors();
