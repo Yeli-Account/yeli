@@ -2,66 +2,72 @@ export async function onRequest(context) {
   const { request } = context;
   const url = new URL(request.url);
 
-  if (url.pathname.endsWith('.html') || url.pathname === '/') {
+  if (url.pathname === '/' || url.pathname.endsWith('.html')) {
     return await context.next();
   }
 
   try {
-    let target = decodeURIComponent(url.pathname.slice(1));
-    if (!target.startsWith('http')) {
-      target = 'https://' + target;
-    }
-    target += url.search;
+    let actualUrlStr = decodeURIComponent(url.pathname.replace("/", ""));
+    actualUrlStr = ensureProtocol(actualUrlStr, url.protocol);
+    actualUrlStr += url.search;
 
-    const headers = new Headers(request.headers);
-    for (const key of [...headers.keys()]) {
-      if (key.toLowerCase().startsWith('cf-')) {
-        headers.delete(key);
-      }
-    }
+    const newHeaders = filterHeaders(request.headers, name => !name.startsWith('cf-'));
 
-    const res = await fetch(target, {
+    const modifiedRequest = new Request(actualUrlStr, {
+      headers: newHeaders,
       method: request.method,
-      headers,
       body: request.body,
       redirect: 'manual'
     });
 
-    const newHeaders = new Headers(res.headers);
+    const response = await fetch(modifiedRequest);
+    let body = response.body;
 
-    if ([301, 302, 303, 307, 308].includes(res.status)) {
-      const loc = newHeaders.get('location');
-      if (loc) {
-        newHeaders.set('location', '/' + encodeURIComponent(loc));
-      }
-      return new Response(res.body, {
-        status: res.status,
-        headers: newHeaders
+    if ([301, 302, 303, 307, 308].includes(response.status)) {
+      const location = new URL(response.headers.get('location'));
+      const modifiedLocation = `/${encodeURIComponent(location.toString())}`;
+      const hd = new Headers(response.headers);
+      hd.set('Location', modifiedLocation);
+      return new Response(body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: hd
       });
     }
 
-    if (newHeaders.get('content-type')?.includes('text/html')) {
-      let text = await res.text();
-      const origin = new URL(target).origin;
-      const myHost = url.host;
-      const proto = url.protocol;
-      text = text.replace(/((href|src|action)=["'])\//g, `$1${proto}//${myHost}/${origin}/`);
-      newHeaders.set('content-type', 'text/html; charset=utf-8');
-      return new Response(text, {
-        status: res.status,
-        headers: newHeaders
-      });
+    if (response.headers.get("Content-Type")?.includes("text/html")) {
+      const originalText = await response.text();
+      const origin = new URL(actualUrlStr).origin;
+      const regex = new RegExp('((href|src|action)=["\'])/(?!/)', 'g');
+      const modifiedText = originalText.replace(regex, `$1${url.protocol}//${url.host}/${origin}/`);
+      body = modifiedText;
     }
 
-    return new Response(res.body, {
-      status: res.status,
-      headers: newHeaders
+    const modifiedResponse = new Response(body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers
     });
 
-  } catch (e) {
-    return new Response(JSON.stringify({ error: e.message }), {
+    modifiedResponse.headers.set('Cache-Control', 'no-store');
+    modifiedResponse.headers.set('Access-Control-Allow-Origin', '*');
+    modifiedResponse.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    modifiedResponse.headers.set('Access-Control-Allow-Headers', '*');
+
+    return modifiedResponse;
+
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
-      headers: { 'content-type': 'application/json; charset=utf-8' }
+      headers: { 'Content-Type': 'application/json; charset=utf-8' }
     });
   }
+}
+
+function ensureProtocol(url, defaultProtocol) {
+  return url.startsWith("http://") || url.startsWith("https://") ? url : defaultProtocol + "//" + url;
+}
+
+function filterHeaders(headers, filterFunc) {
+  return new Headers([...headers].filter(([name]) => filterFunc(name)));
 }
