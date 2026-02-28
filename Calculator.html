@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Arial', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 30px 0;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .island-toast {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 18px;
+            padding: 14px 28px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            z-index: 1000;
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            max-width: 90%;
+        }
+        .island-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            padding: 30px;
+            border: 1px solid #2d2d2d;
+        }
+        h2 {
+            color: #f5f5f5;
+            margin-bottom: 24px;
+            font-size: 1.55rem;
+            border-left: 4px solid #4a6fa5;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            padding: 10px 16px;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .display {
+            grid-column: span 4;
+            background-color: #252525;
+            border: 1px solid #383838;
+            border-radius: 12px;
+            padding: 25px 20px;
+            margin-bottom: 12px;
+            text-align: right;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #e8e8e8;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            word-break: break-all;
+        }
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 22px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-num {
+            background-color: #383838;
+            color: #e0e0e0;
+        }
+        .btn-num:hover {
+            background-color: #454545;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .btn-clear {
+            background-color: #ff6b6b;
+            color: #fff;
+        }
+        .btn-clear:hover {
+            background-color: #ff5252;
+        }
+        .btn-backspace {
+            background-color: #424242;
+            color: #e0e0e0;
+        }
+        .btn-backspace:hover {
+            background-color: #4e4e4e;
+        }
+        .btn-operator {
+            background-color: #4a6fa5;
+            color: #fff;
+        }
+        .btn-operator:hover {
+            background-color: #5a8ac5;
+        }
+        .btn-equals {
+            background-color: #66bb6a;
+            color: #fff;
+            grid-column: span 2;
+        }
+        .btn-equals:hover {
+            background-color: #4caf50;
+        }
+        @media (max-width: 375px) {
+            .calculator-grid {
+                gap: 8px;
+            }
+            button {
+                padding: 18px 0;
+                font-size: 1rem;
+            }
+            .display {
+                font-size: 1.8rem;
+                min-height: 80px;
+                padding: 20px 16px;
+            }
+            .card {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="island-toast" id="toast"></div>
+    <div class="container">
+        <div class="card">
+            <h2>计算器</h2>
+            <div class="calculator-grid">
+                <div class="display" id="display">0</div>
+                <button class="btn-clear" onclick="clearDisplay()">C</button>
+                <button class="btn-backspace" onclick="backspace()">←</button>
+                <button class="btn-num" onclick="appendCharacter('%')">%</button>
+                <button class="btn-operator" onclick="appendCharacter('/')">÷</button>
+                <button class="btn-num" onclick="appendCharacter('7')">7</button>
+                <button class="btn-num" onclick="appendCharacter('8')">8</button>
+                <button class="btn-num" onclick="appendCharacter('9')">9</button>
+                <button class="btn-operator" onclick="appendCharacter('*')">×</button>
+                <button class="btn-num" onclick="appendCharacter('4')">4</button>
+                <button class="btn-num" onclick="appendCharacter('5')">5</button>
+                <button class="btn-num" onclick="appendCharacter('6')">6</button>
+                <button class="btn-operator" onclick="appendCharacter('-')">−</button>
+                <button class="btn-num" onclick="appendCharacter('1')">1</button>
+                <button class="btn-num" onclick="appendCharacter('2')">2</button>
+                <button class="btn-num" onclick="appendCharacter('3')">3</button>
+                <button class="btn-operator" onclick="appendCharacter('+')">+</button>
+                <button class="btn-num" onclick="appendCharacter('0')">0</button>
+                <button class="btn-num" onclick="appendCharacter('.')">.</button>
+                <button class="btn-equals" onclick="calculateResult()">=</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentInput = '';
+        const displayElement = document.getElementById('display');
+        const toast = document.getElementById('toast');
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+        function appendCharacter(char) {
+            if (currentInput === '0' && /[0-9]/.test(char)) {
+                currentInput = char;
+            } else {
+                currentInput += char;
+            }
+            updateDisplay();
+        }
+        function clearDisplay() {
+            currentInput = '';
+            updateDisplay();
+        }
+        function backspace() {
+            currentInput = currentInput.slice(0, -1);
+            updateDisplay();
+        }
+        function updateDisplay() {
+            displayElement.textContent = currentInput || '0';
+        }
+        function calculateResult() {
+            if (!currentInput) return;
+            try {
+                let expression = currentInput.replace(/÷/g, '/').replace(/×/g, '*').replace(/−/g, '-').replace(/%/g, '/100');
+                let result = eval(expression);
+                let finalResult = Number.isInteger(result) ? result.toString() : result.toFixed(8).replace(/\.?0*$/, '');
+                currentInput = finalResult;
+                updateDisplay();
+                showToast('计算成功');
+            } catch (e) {
+                showToast('表达式错误');
+                currentInput = '';
+                updateDisplay();
+            }
+        }
+    </script>
+</body>
+</html>
