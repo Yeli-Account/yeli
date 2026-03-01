@@ -225,8 +225,8 @@
             position: fixed;
             top: 50px;
             left: 0;
-            width: 100vw;
-            height: calc(100vh - 50px);
+            right: 0;
+            bottom: 0;
             z-index: 9998;
             display: none;
             background-color: #252525;
@@ -239,8 +239,6 @@
             height: 100%;
             border: none;
             background-color: #252525;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
         }
         .exit-fullscreen-btn {
             padding: 8px 20px;
@@ -248,6 +246,7 @@
             border-radius: 8px;
             margin: 0;
             cursor: pointer;
+            white-space: nowrap;
         }
         @media (max-width: 576px) {
             .card {
@@ -283,8 +282,10 @@
             .fullscreen-container {
                 top: 45px;
                 height: calc(100vh - 45px);
-                border-bottom-left-radius: 10px;
-                border-bottom-right-radius: 10px;
+            }
+            .exit-fullscreen-btn {
+                padding: 6px 16px;
+                font-size: 0.9rem;
             }
         }
     </style>
