@@ -205,12 +205,12 @@
             font-size: 0.95rem;
             font-weight: 500;
         }
-     .fullscreen-header {
+        .fullscreen-header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 50px;
+            height: 40px;
             background-color: #1e1e1e;
             border-bottom: 1px solid #2d2d2d;
             display: flex;
@@ -218,20 +218,20 @@
             align-items: center;
             padding: 0 20px;
             z-index: 9999;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
         }
-    .fullscreen-container {
+        .fullscreen-container {
             position: fixed;
-            top: 50px;
+            top: 40px;
             left: 0;
             right: 0;
             bottom: 0;
             z-index: 9998;
             display: none;
             background-color: #252525;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
             overflow: hidden;
         }
         #fullscreenIframe {
@@ -241,12 +241,20 @@
             background-color: #252525;
         }
         .exit-fullscreen-btn {
-            padding: 8px 20px;
-            font-size: 0.95rem;
+            padding: 8px 24px;
+            font-size: 1rem;
             border-radius: 8px;
             margin: 0;
             cursor: pointer;
             white-space: nowrap;
+            background-color: #4a6fa5;
+            color: #fff;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        .exit-fullscreen-btn:hover {
+            background-color: #5a8ac5;
+            box-shadow: 0 2px 8px rgba(74, 111, 165, 0.4);
         }
         @media (max-width: 576px) {
             .card {
@@ -275,16 +283,18 @@
                 font-size: 14px;
             }
             .fullscreen-header {
-                height: 45px;
-                border-bottom-left-radius: 10px;
-                border-bottom-right-radius: 10px;
+                height: 36px;
+                border-bottom-left-radius: 6px;
+                border-bottom-right-radius: 6px;
             }
             .fullscreen-container {
-                top: 45px;
-                height: calc(100vh - 45px);
+                top: 36px;
+                height: calc(100vh - 36px);
+                border-bottom-left-radius: 6px;
+                border-bottom-right-radius: 6px;
             }
             .exit-fullscreen-btn {
-                padding: 6px 16px;
+                padding: 6px 18px;
                 font-size: 0.9rem;
             }
         }
@@ -410,4 +420,3 @@
     </script>
 </body>
 </html>
-
