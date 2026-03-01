@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML代码在线预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Arial', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 30px 0;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .island-toast {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 18px;
+            padding: 14px 28px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            z-index: 1000;
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            max-width: 90%;
+        }
+        .island-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid #2d2d2d;
+        }
+        h2 {
+            color: #f5f5f5;
+            margin-bottom: 24px;
+            font-size: 1.55rem;
+            border-left: 4px solid #4a6fa5;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            padding: 10px 16px;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+        .form-group {
+            margin-bottom: 22px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #b8b8b8;
+            font-weight: 500;
+            font-size: 1.05rem;
+        }
+        .code-box {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: #252525;
+            border: 1px solid #383838;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            resize: vertical;
+            color: #e8e8e8;
+            white-space: pre-wrap;
+            word-break: break-all;
+            outline: none;
+            font-family: 'Consolas', 'Monaco', monospace;
+            min-height: 200px;
+            line-height: 1.6;
+        }
+        .code-box:focus {
+            border-color: #4a6fa5;
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+            background-color: #272727;
+        }
+        button {
+            background-color: #4a6fa5;
+            color: #fff;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            margin-right: 12px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 10;
+        }
+        button:hover {
+            background-color: #5a8ac5;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(74, 111, 165, 0.3);
+        }
+        button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(74, 111, 165, 0.2);
+        }
+        .preview-area {
+            margin-top: 24px;
+            padding: 0;
+            background-color: #252525;
+            border-radius: 14px;
+            border: 1px solid #383838;
+            overflow: hidden;
+        }
+        .preview-area h3 {
+            color: #c8d8e8;
+            margin: 0;
+            padding: 12px 16px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            background-color: #2d2d2d;
+            border-bottom: 1px solid #383838;
+        }
+        .preview-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            background-color: #252525;
+        }
+        #previewIframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: #252525;
+        }
+        .mini-fullscreen-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background-color: #1e1e1e;
+            border: 1px solid #383838;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            padding: 0;
+            margin: 0;
+            opacity: 0.8;
+        }
+        .mini-fullscreen-btn:hover {
+            opacity: 1;
+            background-color: #4a6fa5;
+            transform: translateY(0);
+            box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.3);
+        }
+        .copy-btn, .reset-btn {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: 10px;
+        }
+        .copy-btn {
+            background-color: #383838;
+        }
+        .copy-btn:hover {
+            background-color: #454545;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .reset-btn {
+            background-color: #636363;
+        }
+        .reset-btn:hover {
+            background-color: #757575;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .error {
+            color: #ff6b6b;
+            margin-top: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .fullscreen-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-color: #1e1e1e;
+            border-bottom: 1px solid #2d2d2d;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 9999;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        .fullscreen-container {
+            position: fixed;
+            top: 50px;
+            left: 0;
+            width: 100vw;
+            height: calc(100vh - 50px);
+            z-index: 9998;
+            display: none;
+            background-color: #252525;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            overflow: hidden;
+        }
+        #fullscreenIframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: #252525;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        .exit-fullscreen-btn {
+            padding: 8px 20px;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            margin: 0;
+            cursor: pointer;
+        }
+        @media (max-width: 576px) {
+            .card {
+                padding: 24px;
+            }
+            h2 {
+                font-size: 1.4rem;
+                padding: 8px 14px;
+            }
+            button {
+                padding: 12px 24px;
+                font-size: 1rem;
+                width: 100%;
+                margin-right: 0;
+            }
+            .code-box {
+                padding: 12px 14px;
+                font-size: 1rem;
+            }
+            .preview-container {
+                height: 250px;
+            }
+            .mini-fullscreen-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+            .fullscreen-header {
+                height: 45px;
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+            .fullscreen-container {
+                top: 45px;
+                height: calc(100vh - 45px);
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="island-toast" id="toast"></div>
+    <div class="fullscreen-header" id="fullscreenHeader" style="display: none;">
+        <button class="exit-fullscreen-btn" id="exitFullscreenBtn">退出全屏</button>
+    </div>
+    <div class="fullscreen-container" id="fullscreenContainer" style="display: none;">
+        <iframe id="fullscreenIframe"></iframe>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>HTML代码在线预览</h2>
+            <div class="form-group">
+                <label for="htmlCode">HTML代码</label>
+                <textarea id="htmlCode" class="code-box" placeholder="请输入HTML代码"></textarea>
+                <div id="codeError" class="error"></div>
+            </div>
+            <button onclick="previewHtml()">实时预览</button>
+            <button onclick="copyCode()" class="copy-btn">复制代码</button>
+            <button onclick="resetCode()" class="reset-btn">重置</button>
+            
+            <div class="preview-area">
+                <h3>预览效果</h3>
+                <div class="preview-container">
+                    <iframe id="previewIframe"></iframe>
+                    <button class="mini-fullscreen-btn" onclick="enterFullscreen()">⛶</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const toast = document.getElementById('toast');
+        const htmlCode = document.getElementById('htmlCode');
+        const previewIframe = document.getElementById('previewIframe');
+        const fullscreenContainer = document.getElementById('fullscreenContainer');
+        const fullscreenIframe = document.getElementById('fullscreenIframe');
+        const fullscreenHeader = document.getElementById('fullscreenHeader');
+        const exitFullscreenBtn = document.getElementById('exitFullscreenBtn');
+        const codeError = document.getElementById('codeError');
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function clearError() {
+            codeError.textContent = '';
+        }
+
+        async function copyCode() {
+            const code = htmlCode.value.trim();
+            if (!code) return showToast('无代码可复制');
+            try {
+                await navigator.clipboard.writeText(code);
+                showToast('代码复制成功');
+            } catch {
+                htmlCode.select();
+                document.execCommand('copy');
+                showToast('代码复制成功');
+            }
+        }
+
+        function resetCode() {
+            htmlCode.value = '';
+            previewIframe.srcdoc = '';
+            fullscreenIframe.srcdoc = '';
+            clearError();
+            showToast('内容已重置');
+        }
+
+        function previewHtml() {
+            clearError();
+            const code = htmlCode.value.trim();
+            if (!code) {
+                codeError.textContent = '请输入HTML代码';
+                previewIframe.srcdoc = '';
+                fullscreenIframe.srcdoc = '';
+                return;
+            }
+            try {
+                previewIframe.srcdoc = code;
+                fullscreenIframe.srcdoc = code;
+                showToast('预览更新完成');
+            } catch {
+                codeError.textContent = '代码格式有误，预览失败';
+            }
+        }
+
+        function enterFullscreen() {
+            const code = htmlCode.value.trim();
+            if (!code) {
+                codeError.textContent = '请输入HTML代码后再全屏预览';
+                return;
+            }
+            fullscreenIframe.srcdoc = code;
+            fullscreenHeader.style.display = 'flex';
+            fullscreenContainer.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            showToast('已进入全屏预览');
+        }
+
+        function exitFullscreen() {
+            fullscreenHeader.style.display = 'none';
+            fullscreenContainer.style.display = 'none';
+            document.body.style.overflow = '';
+            showToast('已退出全屏预览');
+        }
+
+        exitFullscreenBtn.addEventListener('click', exitFullscreen);
+
+        window.onload = function() {
+            previewIframe.srcdoc = '';
+            fullscreenIframe.srcdoc = '';
+            clearError();
+        };
+    </script>
+</body>
+</html>
