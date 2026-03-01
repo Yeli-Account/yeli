@@ -94,104 +94,6 @@
         }
         .code-box:focus {
             border-color: #4a6fa5;
-            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0. 修复后完整代码（还原原有视觉，按钮自适应背景，保留圆角效果）
-```html
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML代码在线预览</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, 'Arial', sans-serif;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        body {
-            background-color: #121212;
-            color: #e0e0e0;
-            min-height: 100vh;
-            padding: 30px 0;
-            line-height: 1.5;
-            overflow-x: hidden;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        .island-toast {
-            position: fixed;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background-color: #1e1e1e;
-            border: 1px solid #333;
-            border-radius: 18px;
-            padding: 14px 28px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-            z-index: 1000;
-            opacity: 0;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-            font-size: 1rem;
-            font-weight: 500;
-            text-align: center;
-            max-width: 90%;
-        }
-        .island-toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-        .card {
-            background-color: #1e1e1e;
-            border-radius: 18px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid #2d2d2d;
-        }
-        h2 {
-            color: #f5f5f5;
-            margin-bottom: 24px;
-            font-size: 1.55rem;
-            border-left: 4px solid #4a6fa5;
-            border-top-left-radius: 6px;
-            border-bottom-left-radius: 6px;
-            padding: 10px 16px;
-            line-height: 1.4;
-            font-weight: 600;
-        }
-        .form-group {
-            margin-bottom: 22px;
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-            color: #b8b8b8;
-            font-weight: 500;
-            font-size: 1.05rem;
-        }
-        .code-box {
-            width: 100%;
-            padding: 14px 16px;
-            background-color: #252525;
-            border: 1px solid #383838;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            resize: vertical;
-            color: #e8e8e8;
-            white-space: pre-wrap;
-            word-break: break-all;
-            outline: none;
-            font-family: 'Consolas', 'Monaco', monospace;
-            min-height: 200px;
-            line-height: 1.6;
-        }
-        .code-box:focus {
-            border-color: #4a6fa5;
             box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
             background-color: #272727;
         }
@@ -339,20 +241,17 @@
             background-color: #252525;
         }
         .exit-fullscreen-btn {
-            width: calc(100% - 40px);
-            max-width: 200px;
-            height: calc(100% - 10px);
-            padding: 0 16px;
+            background-color: #4a6fa5;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
             font-size: 0.95rem;
             border-radius: 8px;
             margin: 0;
             cursor: pointer;
             white-space: nowrap;
-            background-color: #4a6fa5;
-            color: #fff;
-            border: none;
             transition: all 0.3s ease;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
         }
@@ -396,8 +295,7 @@
                 height: calc(100vh - 45px);
             }
             .exit-fullscreen-btn {
-                height: calc(100% - 8px);
-                max-width: 180px;
+                padding: 6px 16px;
                 font-size: 0.9rem;
             }
         }
@@ -477,7 +375,7 @@
 
         function previewHtml() {
             clearError();
-            const code = htmlCode.value.trim();
+            let code = htmlCode.value.trim();
             if (!code) {
                 codeError.textContent = '请输入HTML代码';
                 previewIframe.srcdoc = '';
@@ -485,6 +383,9 @@
                 return;
             }
             try {
+                if (!code.includes('<!DOCTYPE') && !code.includes('<html')) {
+                    code = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head><body>' + code + '</body></html>';
+                }
                 previewIframe.srcdoc = code;
                 fullscreenIframe.srcdoc = code;
                 showToast('预览更新完成');
@@ -499,7 +400,7 @@
                 codeError.textContent = '请输入HTML代码后再全屏预览';
                 return;
             }
-            fullscreenIframe.srcdoc = code;
+            fullscreenIframe.srcdoc = previewIframe.srcdoc;
             fullscreenHeader.style.display = 'flex';
             fullscreenContainer.style.display = 'block';
             document.body.style.overflow = 'hidden';
