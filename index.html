@@ -293,7 +293,7 @@
         @keyframes containerEnter {
             from {
                 opacity: 0;
-                transform: scale(0.85) translateY(40px);
+                transform: scale(0.9) translateY(30px);
             }
             to {
                 opacity: 1;
@@ -545,10 +545,6 @@
             opacity: 0.7;
             transform: translateY(0);
         }
-        .expression.switching {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
         .result {
             font-size: 56px;
             font-weight: 400;
@@ -569,19 +565,16 @@
         .result.shrink-3 { font-size: 30px; }
         .result.shrink-4 { font-size: 24px; }
         .result.pulse {
-            animation: resultPulse var(--duration-medium) var(--ease-spring);
+            animation: resultPulse 400ms var(--ease-spring);
         }
         .result.shake {
             animation: errorShake var(--duration-medium) var(--ease-standard);
             color: var(--md-error);
         }
-        .result.switching {
-            opacity: 0;
-            transform: scale(0.95);
-        }
         @keyframes resultPulse {
             0% { transform: scale(1); }
-            40% { transform: scale(1.04); }
+            30% { transform: scale(1.05); }
+            60% { transform: scale(0.97); }
             100% { transform: scale(1); }
         }
         @keyframes errorShake {
@@ -595,12 +588,14 @@
         }
         @keyframes numberPop {
             0% { transform: scale(1); }
-            30% { transform: scale(1.02); }
+            40% { transform: scale(1.02); }
             100% { transform: scale(1); }
         }
         .result.number-input {
-            animation: numberPop 150ms var(--ease-spring);
+            animation: numberPop 160ms var(--ease-spring);
         }
+
+        /* ========== 所有按钮统一交互 ========== */
         .buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -620,72 +615,61 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
-            transition: transform var(--duration-short) var(--ease-spring),
-                        background var(--duration-short) var(--ease-standard),
-                        color var(--duration-short) var(--ease-standard),
-                        box-shadow var(--duration-short) var(--ease-standard);
+            transition: transform 120ms var(--ease-spring),
+                        background 150ms var(--ease-standard),
+                        color 150ms var(--ease-standard),
+                        box-shadow 150ms var(--ease-standard);
             user-select: none;
             -webkit-user-select: none;
             will-change: transform;
         }
+        /* 统一涟漪 */
         .btn .ripple {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.35);
+            background: rgba(0, 0, 0, 0.06);
             transform: scale(0);
-            animation: rippleAnim 500ms ease-out forwards;
+            animation: rippleAnim 500ms cubic-bezier(0.2, 0, 0, 1) forwards;
             pointer-events: none;
         }
-        .btn-number .ripple,
-        .btn-function .ripple {
-            background: rgba(0, 0, 0, 0.08);
+        .btn-equals .ripple,
+        .btn-operator .ripple {
+            background: rgba(255, 255, 255, 0.25);
         }
         @keyframes rippleAnim {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
+            from { transform: scale(0); opacity: 0.5; }
+            to { transform: scale(4); opacity: 0; }
         }
+        /* 统一按压 */
         .btn.pressing {
-            transform: scale(0.9);
+            transform: scale(0.88);
         }
         .btn:active {
             transform: scale(0.92);
         }
+        /* 统一 hover */
+        .btn:hover {
+            box-shadow: var(--elevation-1);
+            transform: translateY(-1px);
+        }
+
+        /* ---- 只靠基础颜色区分按钮类型，交互全部一样 ---- */
         .btn-number {
             background: var(--md-surface-variant);
             color: var(--md-on-surface);
-            box-shadow: 0 0 0 0 transparent;
         }
         .btn-number:hover {
             background: var(--md-outline-variant);
-            box-shadow: var(--elevation-1);
-            transform: translateY(-2px);
         }
         .btn-operator {
             background: var(--md-secondary-container);
             color: var(--md-on-secondary-container);
             font-size: 28px;
         }
-        .btn-operator:hover {
-            box-shadow: var(--elevation-1);
-            transform: translateY(-2px);
-            filter: brightness(0.96);
-        }
-        [data-theme="dark"] .btn-operator:hover {
-            filter: brightness(1.1);
-        }
-        .btn-operator.active-op {
+        .btn-equals {
             background: var(--md-primary);
             color: var(--md-on-primary);
-            box-shadow: var(--elevation-2);
-            transform: scale(1.05);
-            animation: opGlow var(--duration-medium) var(--ease-spring);
-        }
-        @keyframes opGlow {
-            0% { transform: scale(1); box-shadow: var(--elevation-1); }
-            50% { transform: scale(1.08); box-shadow: 0 0 12px var(--md-primary); }
-            100% { transform: scale(1.05); box-shadow: var(--elevation-2); }
+            font-size: 32px;
         }
         .btn-function {
             background: var(--md-surface-2);
@@ -694,27 +678,6 @@
         }
         .btn-function:hover {
             background: var(--md-surface-3);
-            transform: translateY(-2px);
-        }
-        .btn-equals {
-            background: var(--md-primary);
-            color: var(--md-on-primary);
-            font-size: 32px;
-            transition: transform var(--duration-short) var(--ease-spring),
-                        background var(--duration-short) var(--ease-standard),
-                        box-shadow var(--duration-short) var(--ease-standard),
-                        filter var(--duration-short) var(--ease-standard);
-        }
-        .btn-equals:hover {
-            box-shadow: var(--elevation-2), 0 0 16px var(--md-primary);
-            transform: translateY(-3px) scale(1.05);
-            filter: brightness(1.08);
-        }
-        .btn-equals:active {
-            transform: scale(0.9);
-        }
-        [data-theme="dark"] .btn-equals:hover {
-            filter: brightness(1.15);
         }
         .btn-zero {
             grid-column: span 2;
@@ -790,7 +753,6 @@
 </head>
 <body>
     <div class="calculator-container">
-        <!-- 顶部栏 -->
         <div class="top-bar">
             <div class="top-bar-title">
                 <h1>Calculator</h1>
@@ -817,7 +779,6 @@
                 </button>
             </div>
         </div>
-        <!-- 色盘面板 -->
         <div class="color-panel" id="colorPanel">
             <div class="color-options">
                 <div class="color-swatch active" data-color="blue" title="Blue"></div>
@@ -828,18 +789,15 @@
                 <div class="color-swatch" data-color="teal" title="Teal"></div>
             </div>
         </div>
-        <!-- 历史记录面板 -->
         <div class="history-panel" id="historyPanel">
             <div class="history-list" id="historyList">
                 <div class="history-empty">暂无历史记录</div>
             </div>
         </div>
-        <!-- 显示区 -->
         <div class="display">
             <div class="expression" id="expression"></div>
             <div class="result" id="result">0</div>
         </div>
-        <!-- 按钮区 -->
         <div class="buttons">
             <button class="btn btn-function btn-clear" data-action="clear"><span>AC</span></button>
             <button class="btn btn-function" data-action="toggle-sign"><span>⁺⁄₋</span></button>
@@ -878,7 +836,6 @@
                 this.lastResult = null;
                 this.hasError = false;
                 this.justCalculated = false;
-                this.clearActiveOperator();
             }
             inputNumber(num) {
                 if (this.hasError) this.reset();
@@ -894,7 +851,6 @@
                 } else {
                     this.currentNumber += num;
                 }
-                this.clearActiveOperator();
                 this.updateDisplay();
                 this.popResult();
             }
@@ -906,7 +862,6 @@
                     this.shouldResetScreen = true;
                     this.justCalculated = false;
                     this.updateExpression();
-                    this.highlightOperator(op);
                     return;
                 }
                 if (this.operator && !this.shouldResetScreen) {
@@ -917,7 +872,6 @@
                 this.shouldResetScreen = true;
                 this.justCalculated = false;
                 this.updateExpression();
-                this.highlightOperator(op);
             }
             calculate(isChained = false) {
                 if (!this.operator) return;
@@ -957,7 +911,6 @@
                 this.justCalculated = true;
                 this.updateDisplay();
                 this.pulseResult();
-                this.clearActiveOperator();
             }
             toggleSign() {
                 if (this.hasError || this.currentNumber === '0') return;
@@ -1000,8 +953,13 @@
                 this.resultEl.classList.add('shake');
                 this.operator = null;
                 this.previousNumber = '';
-                this.clearActiveOperator();
                 setTimeout(() => this.resultEl.classList.remove('shake'), 600);
+            }
+            popResult() {
+                this.resultEl.classList.remove('number-input');
+                void this.resultEl.offsetWidth;
+                this.resultEl.classList.add('number-input');
+                setTimeout(() => this.resultEl.classList.remove('number-input'), 160);
             }
             formatDisplay(numStr) {
                 if (numStr === 'Error') return 'Error';
@@ -1053,15 +1011,7 @@
                 this.resultEl.classList.remove('pulse');
                 void this.resultEl.offsetWidth;
                 this.resultEl.classList.add('pulse');
-                setTimeout(() => this.resultEl.classList.remove('pulse'), 300);
-            }
-            highlightOperator(op) {
-                this.clearActiveOperator();
-                const btn = document.querySelector(`.btn-operator[data-value="${op}"]`);
-                if (btn) btn.classList.add('active-op');
-            }
-            clearActiveOperator() {
-                document.querySelectorAll('.btn-operator.active-op').forEach(b => b.classList.remove('active-op'));
+                setTimeout(() => this.resultEl.classList.remove('pulse'), 400);
             }
             addToHistory(expr, result) {
                 this.history.unshift({ expr, result });
@@ -1094,9 +1044,11 @@
                 });
             }
         }
+
         const expressionEl = document.getElementById('expression');
         const resultEl = document.getElementById('result');
         const calc = new Calculator(expressionEl, resultEl);
+
         function createRipple(event, button) {
             const ripple = document.createElement('span');
             ripple.classList.add('ripple');
@@ -1110,17 +1062,15 @@
             button.appendChild(ripple);
             setTimeout(() => ripple.remove(), 500);
         }
+
+        /* 所有按钮完全一样的交互：涟漪 + 按压 */
         document.querySelectorAll('.btn').forEach(btn => {
             btn.addEventListener('pointerdown', (e) => {
                 createRipple(e, btn);
                 btn.classList.add('pressing');
             });
-            btn.addEventListener('pointerup', () => {
-                btn.classList.remove('pressing');
-            });
-            btn.addEventListener('pointerleave', () => {
-                btn.classList.remove('pressing');
-            });
+            btn.addEventListener('pointerup', () => btn.classList.remove('pressing'));
+            btn.addEventListener('pointerleave', () => btn.classList.remove('pressing'));
             btn.addEventListener('click', () => {
                 const action = btn.dataset.action;
                 const value = btn.dataset.value;
@@ -1135,6 +1085,7 @@
                 }
             });
         });
+
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
         const savedTheme = localStorage.getItem('md3-calc-theme') || 'light';
@@ -1181,9 +1132,7 @@
                 swatch.style.transform = 'scale(1.35)';
                 setTimeout(() => {
                     swatch.style.transform = '';
-                    setTimeout(() => {
-                        document.body.classList.remove('theme-transitioning');
-                    }, 300);
+                    setTimeout(() => document.body.classList.remove('theme-transitioning'), 300);
                 }, 150);
             });
         });
@@ -1195,8 +1144,7 @@
         });
         document.addEventListener('click', (e) => {
             const container = document.querySelector('.calculator-container');
-            const isInside = container.contains(e.target);
-            if (!isInside) {
+            if (!container.contains(e.target)) {
                 historyPanel.classList.remove('show');
                 colorPanel.classList.remove('show');
                 return;
@@ -1205,12 +1153,8 @@
             const isColorBtn = colorToggle.contains(e.target);
             const isHistoryPanel = historyPanel.contains(e.target);
             const isColorPanel = colorPanel.contains(e.target);
-            if (!isHistoryBtn && !isHistoryPanel) {
-                historyPanel.classList.remove('show');
-            }
-            if (!isColorBtn && !isColorPanel) {
-                colorPanel.classList.remove('show');
-            }
+            if (!isHistoryBtn && !isHistoryPanel) historyPanel.classList.remove('show');
+            if (!isColorBtn && !isColorPanel) colorPanel.classList.remove('show');
         });
         document.addEventListener('keydown', (e) => {
             if (e.key >= '0' && e.key <= '9') {
@@ -1249,11 +1193,12 @@
         function animateButton(selector) {
             const btn = document.querySelector(selector);
             if (!btn) return;
+            createRipple({
+                clientX: btn.getBoundingClientRect().left + btn.offsetWidth / 2,
+                clientY: btn.getBoundingClientRect().top + btn.offsetHeight / 2
+            }, btn);
             btn.classList.add('pressing');
-            createRipple({ clientX: btn.getBoundingClientRect().left + btn.offsetWidth/2, clientY: btn.getBoundingClientRect().top + btn.offsetHeight/2 }, btn);
-            setTimeout(() => {
-                btn.classList.remove('pressing');
-            }, 150);
+            setTimeout(() => btn.classList.remove('pressing'), 120);
         }
         window.addEventListener('load', () => {
             resultEl.style.opacity = '0';
@@ -1269,3 +1214,4 @@
     </script>
 </body>
 </html>
+
