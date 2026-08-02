@@ -90,21 +90,24 @@
   window.addEventListener('load', checkInView);
   setTimeout(checkInView, 1200);
 
-  if (cursorGlow && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  if (cursorGlow) {
     var gx = window.innerWidth / 2;
     var gy = window.innerHeight / 3;
     var cx = gx;
     var cy = gy;
     var shown = false;
 
-    window.addEventListener('mousemove', function (e) {
+    function moveGlow(e) {
       gx = e.clientX;
       gy = e.clientY;
       if (!shown) {
         shown = true;
         cursorGlow.classList.add('visible');
       }
-    }, { passive: true });
+    }
+
+    window.addEventListener('pointermove', moveGlow, { passive: true });
+    window.addEventListener('pointerdown', moveGlow, { passive: true });
 
     (function loop() {
       cx += (gx - cx) * 0.12;
