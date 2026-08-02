@@ -46,7 +46,7 @@ ul { list-style: none; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
 .container {
-  width: min(1200px, 92%);
+  width: 1200px;
   margin: 0 auto;
 }
 
@@ -749,93 +749,9 @@ main, footer { position: relative; z-index: 1; }
   transform: none;
 }
 
-/* ===== 视差背景（桌面端） ===== */
-@media (min-width: 901px) {
-  .hero-bg,
-  .join-bg { background-attachment: fixed; }
-}
-
-/* ===== 响应式 ===== */
-@media (max-width: 900px) {
-  .member-grid { grid-template-columns: repeat(2, 1fr); }
-  .work-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 640px) {
-  .section { padding: 76px 0; }
-  .section-title { font-size: 26px; margin-bottom: 30px; }
-  .reveal { transition-duration: 0.45s; }
-  .member-grid { grid-template-columns: 1fr; gap: 18px; }
-  .member-card { padding: 28px 18px 24px; }
-  .member-avatar { width: 92px; height: 92px; }
-  .work-grid { gap: 18px; }
-  .work-body { padding: 20px 18px 24px; }
-  .work-title { font-size: 18px; }
-
-  .hero { min-height: 88vh; }
-  .hero-content { padding: 120px 0 70px; }
-  .hero-bg,
-  .join-bg { animation: none; }
-  .hero-overlay,
-  .join-overlay { background: radial-gradient(ellipse at center, rgba(13, 16, 22, 0.35) 0%, rgba(13, 16, 22, 0.7) 100%); }
-  .hero-title { font-size: clamp(26px, 7.4vw, 34px); }
-  .hero-subtitle { font-size: 15px; margin: 18px 0 32px; }
-  .hero-actions { flex-direction: column; align-items: center; gap: 14px; }
-  .hero-actions .btn { width: min(320px, 92%); }
-
-  .join { padding: 110px 0; }
-  .join-title { font-size: 28px; }
-
-  .page { padding-top: 132px; padding-bottom: 80px; }
-
-  .nav {
-    position: fixed;
-    top: 68px;
-    right: 0;
-    flex-direction: column;
-    gap: 0;
-    width: 230px;
-    background: rgba(13, 16, 22, 0.97);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-left: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    border-radius: 0 0 0 14px;
-    padding: 14px 0;
-    transform: translateX(105%);
-    transition: transform 0.35s var(--ease-out);
-  }
-
-  .nav.open { transform: translateX(0); }
-  .nav-link { padding: 12px 26px; font-size: 15.5px; }
-  .nav-toggle { display: flex; }
-  .footer-grid { grid-template-columns: 1fr; gap: 32px; padding: 56px 0 40px; }
-  .footer-bottom-inner { flex-direction: column; gap: 6px; }
-  .back-to-top { right: 16px; bottom: 16px; width: 42px; height: 42px; }
-
-  .site-header.scrolled { backdrop-filter: none; -webkit-backdrop-filter: none; }
-}
-
-/* 触摸设备：禁用悬停位移动画，隐藏装饰光效，省电不晃眼 */
-@media (hover: none) {
-  .cursor-glow,
-  .orb { display: none; }
-
-  .member-card:hover,
-  .work-card:hover { transform: none; border-color: var(--border); box-shadow: none; }
-  .member-card:hover::after { opacity: 0; }
-  .member-card:hover .member-avatar { transform: none; animation: none; border-color: var(--accent-soft); box-shadow: none; }
-  .member-card:hover .member-name,
-  .work-card:hover .work-title { color: inherit; }
-  .work-card:hover .work-cover img { transform: none; }
-  .work-card:hover .work-cover::after { opacity: 0.6; }
-  .btn::after { display: none; }
-
-  .member-card:active,
-  .work-card:active { transform: scale(0.98); }
-  .btn:active { transform: scale(0.97); }
-}
+.member-card:active,
+.work-card:active { transform: scale(0.98); }
+.btn:active { transform: scale(0.97); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
