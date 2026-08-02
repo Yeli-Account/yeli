@@ -47,8 +47,21 @@
     });
   }
 
-  /* ----- 滚动入场 + 交错动画 ----- */
+  /* ----- 滚动入场 + 交错动画（含移动端兜底） ----- */
   var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+
+  function markVisible(el) {
+    if (!el.classList.contains('visible')) el.classList.add('visible');
+  }
+
+  function checkInView() {
+    var vh = window.innerHeight;
+    revealEls.forEach(function (el) {
+      if (el.classList.contains('visible')) return;
+      var r = el.getBoundingClientRect();
+      if (r.top < vh - 40 && r.bottom > 0) markVisible(el);
+    });
+  }
 
   if ('IntersectionObserver' in window) {
     var lastParent = null;
@@ -56,7 +69,7 @@
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+          markVisible(entry.target);
           io.unobserve(entry.target);
         }
       });
@@ -72,9 +85,16 @@
   } else {
     revealEls.forEach(function (el) {
       el.style.transitionDelay = '0ms';
-      el.classList.add('visible');
+      markVisible(el);
     });
   }
+
+  // 兜底：部分移动端 WebView 的 IntersectionObserver 不触发时，
+  // 通过滚动/加载/定时检测强制显示，避免内容停留在透明状态
+  window.addEventListener('scroll', checkInView, { passive: true });
+  window.addEventListener('resize', checkInView, { passive: true });
+  window.addEventListener('load', checkInView);
+  setTimeout(checkInView, 1200);
 
   /* ----- 鼠标跟随光效（仅精细指针设备） ----- */
   if (cursorGlow && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {

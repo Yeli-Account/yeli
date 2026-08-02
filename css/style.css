@@ -748,6 +748,7 @@ main, footer { position: relative; z-index: 1; }
 @media (max-width: 640px) {
   .section { padding: 76px 0; }
   .section-title { font-size: 26px; margin-bottom: 30px; }
+  .reveal { transition-duration: 0.45s; }
   .member-grid { grid-template-columns: 1fr; gap: 18px; }
   .member-card { padding: 28px 18px 24px; }
   .member-avatar { width: 92px; height: 92px; }
