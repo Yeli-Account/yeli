@@ -8,7 +8,6 @@
   var backToTop = document.getElementById('backToTop');
   var cursorGlow = document.getElementById('cursorGlow');
 
-  /* ----- 导航栏滚动状态 ----- */
   function onScroll() {
     var y = window.scrollY;
     if (header) header.classList.toggle('scrolled', y > 20);
@@ -24,7 +23,6 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* ----- 移动端菜单 ----- */
   function toggleMenu(force) {
     var open = typeof force === 'boolean' ? force : !nav.classList.contains('open');
     nav.classList.toggle('open', open);
@@ -40,14 +38,12 @@
     });
   }
 
-  /* ----- 返回顶部 ----- */
   if (backToTop) {
     backToTop.addEventListener('click', function () {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
-  /* ----- 滚动入场 + 交错动画（含移动端兜底） ----- */
   var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
 
   function markVisible(el) {
@@ -89,14 +85,11 @@
     });
   }
 
-  // 兜底：部分移动端 WebView 的 IntersectionObserver 不触发时，
-  // 通过滚动/加载/定时检测强制显示，避免内容停留在透明状态
   window.addEventListener('scroll', checkInView, { passive: true });
   window.addEventListener('resize', checkInView, { passive: true });
   window.addEventListener('load', checkInView);
   setTimeout(checkInView, 1200);
 
-  /* ----- 鼠标跟随光效（仅精细指针设备） ----- */
   if (cursorGlow && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     var gx = window.innerWidth / 2;
     var gy = window.innerHeight / 3;
