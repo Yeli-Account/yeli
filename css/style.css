@@ -19,7 +19,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; min-width: 1200px; }
 
 body {
   font-family: var(--font);
@@ -27,7 +27,7 @@ body {
   color: var(--text);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  min-width: 1200px;
 }
 
 img { max-width: 100%; display: block; }
@@ -120,7 +120,7 @@ main, footer { position: relative; z-index: 1; }
 
 /* ===== 导航栏 ===== */
 .site-header {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
