@@ -101,23 +101,6 @@ main, footer { position: relative; z-index: 1; }
 }
 .cursor-glow.visible { opacity: 1; }
 
-.ripple {
-  position: fixed;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  pointer-events: none;
-  background: rgba(255, 255, 255, 0.35);
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 1;
-  z-index: 999;
-  animation: rippleAnim 0.6s ease-out forwards;
-}
-
-@keyframes rippleAnim {
-  to { transform: translate(-50%, -50%) scale(26); opacity: 0; }
-}
-
 /* ===== 导航栏 ===== */
 .site-header {
   position: sticky;

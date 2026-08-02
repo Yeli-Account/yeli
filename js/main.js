@@ -113,15 +113,4 @@
       requestAnimationFrame(loop);
     })();
   }
-
-  if (window.matchMedia('(hover: none)').matches) {
-    document.addEventListener('pointerdown', function (e) {
-      var r = document.createElement('span');
-      r.className = 'ripple';
-      r.style.left = e.clientX + 'px';
-      r.style.top = e.clientY + 'px';
-      document.body.appendChild(r);
-      setTimeout(function () { r.remove(); }, 650);
-    }, { passive: true });
-  }
 })();
