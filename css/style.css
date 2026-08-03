@@ -348,12 +348,11 @@ main, footer { position: relative; z-index: 1; }
   inset: 0;
   border-radius: inherit;
   z-index: -1;
-  transform: scaleY(0);
-  transform-origin: bottom;
-  transition: transform 0.35s var(--ease-out);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 .btn:hover::before,
-.btn:active::before { transform: scaleY(1); }
+.btn:active::before { opacity: 1; }
 
 .btn::after {
   content: "";
@@ -593,17 +592,18 @@ main, footer { position: relative; z-index: 1; }
   transition: transform 0.35s var(--ease-out), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
-.join:hover .join-bg {
+.join:hover .join-bg,
+.join:active .join-bg,
+.join.pressed .join-bg {
   transform: translateY(-8px);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: var(--shadow), 0 0 24px rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: var(--shadow), 0 0 24px rgba(255, 255, 255, 0.12);
 }
 
 .join:active .join-bg,
 .join.pressed .join-bg {
-  transform: translateY(-2px) scale(0.985);
-  border-color: rgba(255, 255, 255, 0.45);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35), 0 0 18px rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow), 0 0 0 1px rgba(255, 255, 255, 0.4), 0 0 22px rgba(255, 255, 255, 0.18);
 }
 
 .join-content {
