@@ -274,6 +274,18 @@ main, footer { position: relative; z-index: 1; }
   pointer-events: none;
 }
 
+.join::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, var(--bg), transparent);
+  z-index: 3;
+  pointer-events: none;
+}
+
 .hero-content {
   position: relative;
   z-index: 2;
@@ -561,6 +573,7 @@ main, footer { position: relative; z-index: 1; }
   padding: 140px 0;
   overflow: hidden;
   border-top: 1px solid var(--border);
+  background-color: #45648f;
   background-size: cover;
   background-position: center;
 }
