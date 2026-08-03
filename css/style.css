@@ -564,9 +564,9 @@ main, footer { position: relative; z-index: 1; }
 
 .join-bg {
   position: absolute;
-  inset: -1px;
-  width: calc(100% + 2px);
-  height: calc(100% + 2px);
+  inset: -3px;
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
   object-fit: cover;
   z-index: 0;
 }
