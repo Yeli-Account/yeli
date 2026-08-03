@@ -47,23 +47,26 @@
   var joinEl = document.querySelector('.join');
   if (joinEl) {
     var pressTimer = null;
-    joinEl.addEventListener('pointerdown', function () {
+    function pressStart() {
       joinEl.classList.add('pressed');
       clearTimeout(pressTimer);
       pressTimer = setTimeout(function () {
         joinEl.classList.remove('pressed');
-      }, 260);
-    });
-    joinEl.addEventListener('pointerup', function () {
+      }, 350);
+    }
+    function pressEnd() {
       clearTimeout(pressTimer);
-      setTimeout(function () {
+      pressTimer = setTimeout(function () {
         joinEl.classList.remove('pressed');
-      }, 120);
-    });
-    joinEl.addEventListener('pointerleave', function () {
-      clearTimeout(pressTimer);
-      joinEl.classList.remove('pressed');
-    });
+      }, 150);
+    }
+    joinEl.addEventListener('pointerdown', pressStart);
+    joinEl.addEventListener('mousedown', pressStart);
+    joinEl.addEventListener('touchstart', pressStart, { passive: true });
+    joinEl.addEventListener('pointerup', pressEnd);
+    joinEl.addEventListener('pointercancel', pressEnd);
+    joinEl.addEventListener('mouseleave', pressEnd);
+    joinEl.addEventListener('touchend', pressEnd, { passive: true });
   }
 
   var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
