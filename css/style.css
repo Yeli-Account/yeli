@@ -560,16 +560,20 @@ main, footer { position: relative; z-index: 1; }
   position: relative;
   padding: 140px 0;
   overflow: hidden;
+  background: var(--bg);
   border-top: 1px solid var(--border);
 }
 
 .join-bg {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  inset: 24px;
+  width: auto;
+  height: auto;
   object-fit: cover;
+  border-radius: 20px;
   z-index: 0;
+  animation: kenburns 26s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
 .join-content {
