@@ -238,7 +238,7 @@ main, footer { position: relative; z-index: 1; }
 }
 
 .hero-bg { inset: 0; }
-.join-bg { inset: -1px; }
+.join-bg { inset: -20px; }
 
 .hero-bg {
   animation: kenburns 26s ease-in-out infinite alternate;
@@ -261,7 +261,7 @@ main, footer { position: relative; z-index: 1; }
 }
 
 .hero-overlay { inset: 0; }
-.join-overlay { inset: -1px; }
+.join-overlay { inset: -20px; }
 
 @keyframes fadeIn {
   from { opacity: 0; }
