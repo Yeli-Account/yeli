@@ -579,7 +579,6 @@ main, footer { position: relative; z-index: 1; }
   position: relative;
   padding: 140px 0;
   overflow: hidden;
-  background: var(--bg);
 }
 
 .join-content {
