@@ -44,34 +44,7 @@
     });
   }
 
-  var joinEl = document.querySelector('.join');
-  if (joinEl) {
-    var pressTimer = null;
-    function pressStart() {
-      joinEl.classList.remove('pressed');
-      void joinEl.offsetWidth;
-      joinEl.classList.add('pressed');
-      clearTimeout(pressTimer);
-      pressTimer = setTimeout(function () {
-        joinEl.classList.remove('pressed');
-      }, 600);
-    }
-    function pressEnd() {
-      clearTimeout(pressTimer);
-      pressTimer = setTimeout(function () {
-        joinEl.classList.remove('pressed');
-      }, 400);
-    }
-    joinEl.addEventListener('pointerdown', pressStart);
-    joinEl.addEventListener('mousedown', pressStart);
-    joinEl.addEventListener('touchstart', pressStart, { passive: true });
-    joinEl.addEventListener('pointerup', pressEnd);
-    joinEl.addEventListener('pointercancel', pressEnd);
-    joinEl.addEventListener('mouseleave', pressEnd);
-    joinEl.addEventListener('touchend', pressEnd, { passive: true });
-  }
-
-  var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
 
   function markVisible(el) {
     if (!el.classList.contains('visible')) el.classList.add('visible');

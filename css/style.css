@@ -253,8 +253,6 @@ main, footer { position: relative; z-index: 1; }
   transition: transform 0.35s var(--ease-out);
 }
 .join:hover .join-overlay { transform: translateY(-8px); }
-.join:active .join-overlay,
-.join.pressed .join-overlay { transform: translateY(-4px); }
 
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -573,13 +571,6 @@ main, footer { position: relative; z-index: 1; }
   transform: translateY(-8px);
   border-color: rgba(255, 255, 255, 0.5);
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35), 0 0 30px rgba(255, 255, 255, 0.2);
-}
-
-.join:active .join-bg,
-.join.pressed .join-bg {
-  transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55), 0 0 34px rgba(255, 255, 255, 0.3);
 }
 
 .join-content {
