@@ -48,17 +48,19 @@
   if (joinEl) {
     var pressTimer = null;
     function pressStart() {
+      joinEl.classList.remove('pressed');
+      void joinEl.offsetWidth;
       joinEl.classList.add('pressed');
       clearTimeout(pressTimer);
       pressTimer = setTimeout(function () {
         joinEl.classList.remove('pressed');
-      }, 350);
+      }, 600);
     }
     function pressEnd() {
       clearTimeout(pressTimer);
       pressTimer = setTimeout(function () {
         joinEl.classList.remove('pressed');
-      }, 150);
+      }, 400);
     }
     joinEl.addEventListener('pointerdown', pressStart);
     joinEl.addEventListener('mousedown', pressStart);
