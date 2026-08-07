@@ -12,11 +12,20 @@
 </head>
 <body>
 
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V5"/><path d="M5 12l7-7 7 7"/>
+    </symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7 17L17 7"/><path d="M7 7h10v10"/>
+    </symbol>
+  </svg>
+
   <canvas id="particles" aria-hidden="true"></canvas>
 
   <div class="preloader" id="preloader" aria-hidden="true">
     <div class="preloader-inner">
-      <div class="preloader-ring"></div>
+      <div class="preloader-line"></div>
       <span class="preloader-text">XS工作室</span>
     </div>
   </div>
@@ -83,7 +92,9 @@
     </div>
   </footer>
 
-  <button class="back-to-top" id="backToTop" aria-label="返回顶部">&uarr;</button>
+  <button class="back-to-top" id="backToTop" aria-label="返回顶部">
+    <svg class="ic btt-ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up"/></svg>
+  </button>
   <script src="js/main.js"></script>
 </body>
 </html>

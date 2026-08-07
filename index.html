@@ -13,11 +13,38 @@
 </head>
 <body>
 
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V5"/><path d="M5 12l7-7 7 7"/>
+    </symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/>
+    </symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7 17L17 7"/><path d="M7 7h10v10"/>
+    </symbol>
+    <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7"/>
+    </symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/>
+    </symbol>
+    <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+    </symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+    </symbol>
+  </svg>
+
   <canvas id="particles" aria-hidden="true"></canvas>
 
   <div class="preloader" id="preloader" aria-hidden="true">
     <div class="preloader-inner">
-      <div class="preloader-ring"></div>
+      <div class="preloader-line"></div>
       <span class="preloader-text">XS工作室</span>
     </div>
   </div>
@@ -48,15 +75,19 @@
     <section class="hero">
       <div class="hero-bg" style="background-image:url('images/hero-bg.jpeg')"></div>
       <div class="hero-overlay"></div>
-      <div class="hero-orb hero-orb-a"></div>
-      <div class="hero-orb hero-orb-b"></div>
       <div class="container hero-content">
         <span class="hero-kicker reveal">XIAOSHEN STUDIOS</span>
         <h1 class="hero-title reveal">下载Melon Sandbox XS汉化版</h1>
         <p class="hero-subtitle reveal">ⓘ 仅支持Android端设备下载安装</p>
         <div class="hero-actions reveal">
-          <a class="btn btn-primary" href="https://1816986569.share.123pan.cn/123pan/jmLyVv-11Lph" target="_blank" rel="noopener"><span class="btn-text">点击下载</span></a>
-          <a class="btn btn-ghost" href="http://a.ruansky.com/up/2795013/" target="_blank" rel="noopener"><span class="btn-text">备用下载</span></a>
+          <a class="btn btn-primary" href="https://1816986569.share.123pan.cn/123pan/jmLyVv-11Lph" target="_blank" rel="noopener">
+            <svg class="ic btn-ic" aria-hidden="true" focusable="false"><use href="#i-download"/></svg>
+            <span class="btn-text">点击下载</span>
+          </a>
+          <a class="btn btn-ghost" href="http://a.ruansky.com/up/2795013/" target="_blank" rel="noopener">
+            <svg class="ic btn-ic" aria-hidden="true" focusable="false"><use href="#i-download"/></svg>
+            <span class="btn-text">备用下载</span>
+          </a>
         </div>
       </div>
     </section>
@@ -105,7 +136,10 @@
               <span class="work-author">来自 dragon fruit 的作品</span>
               <h3 class="work-title">闲着没事做的低脂小动画。</h3>
               <p class="work-desc">闲着没事做的低脂小动画。#甜瓜 #执法记录 #美式执法 #动画</p>
-              <a class="btn btn-outline" href="http://v.kuaishou.com/KPwKpQvZ" target="_blank" rel="noopener"><span class="btn-text">前往快手查看</span></a>
+              <a class="btn btn-outline" href="http://v.kuaishou.com/KPwKpQvZ" target="_blank" rel="noopener">
+                <span class="btn-text">前往快手查看</span>
+                <svg class="ic btn-ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg>
+              </a>
             </div>
           </article>
           <article class="work-card glass reveal" data-tilt>
@@ -116,7 +150,10 @@
               <span class="work-author">来自 Li李子球 的作品</span>
               <h3 class="work-title">Western shooter</h3>
               <p class="work-desc">【甜瓜动画】"Western shooter"</p>
-              <a class="btn btn-outline" href="http://b23.tv/dc9qNei" target="_blank" rel="noopener"><span class="btn-text">前往B站查看</span></a>
+              <a class="btn btn-outline" href="http://b23.tv/dc9qNei" target="_blank" rel="noopener">
+                <span class="btn-text">前往B站查看</span>
+                <svg class="ic btn-ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg>
+              </a>
             </div>
           </article>
           <article class="work-card glass reveal" data-tilt>
@@ -127,7 +164,10 @@
               <span class="work-author">来自 生瓜ewe (fukk) 的作品</span>
               <h3 class="work-title">9+1骨骼动画</h3>
               <p class="work-desc">9+1骨骼动画 #甜瓜游乐园 #骨骼动画 #甜瓜</p>
-              <a class="btn btn-outline" href="http://v.kuaishou.com/JDgKGIay" target="_blank" rel="noopener"><span class="btn-text">前往快手查看</span></a>
+              <a class="btn btn-outline" href="http://v.kuaishou.com/JDgKGIay" target="_blank" rel="noopener">
+                <span class="btn-text">前往快手查看</span>
+                <svg class="ic btn-ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg>
+              </a>
             </div>
           </article>
         </div>
@@ -139,9 +179,16 @@
       <img class="join-bg" src="images/join-bg.jpg" alt="" aria-hidden="true">
       <div class="join-overlay"></div>
       <div class="container join-content">
+        <span class="join-badge reveal">
+          <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-send"/></svg>
+        </span>
+        <p class="join-label reveal">官方频道 · CHANNEL</p>
         <h2 class="join-title reveal">加入我们的频道</h2>
         <p class="join-subtitle reveal">加入频道，了解更多</p>
-        <a class="btn btn-primary reveal" href="http://pd.qq.com/s/3m5mgyonx" target="_blank" rel="noopener"><span class="btn-text">点击加入</span></a>
+        <a class="btn btn-primary reveal" href="http://pd.qq.com/s/3m5mgyonx" target="_blank" rel="noopener">
+          <svg class="ic btn-ic" aria-hidden="true" focusable="false"><use href="#i-send"/></svg>
+          <span class="btn-text">点击加入</span>
+        </a>
       </div>
     </section>
 
@@ -179,7 +226,9 @@
     </div>
   </footer>
 
-  <button class="back-to-top" id="backToTop" aria-label="返回顶部">&uarr;</button>
+  <button class="back-to-top" id="backToTop" aria-label="返回顶部">
+    <svg class="ic btt-ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up"/></svg>
+  </button>
   <script src="js/main.js"></script>
 </body>
 </html>
