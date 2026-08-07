@@ -28,6 +28,9 @@
     <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
     </symbol>
+    <symbol id="i-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/>
+    </symbol>
   </svg>
 
   <canvas id="particles" aria-hidden="true"></canvas>
@@ -93,18 +96,18 @@
       <div class="footer-col">
         <h4 class="footer-title">合作伙伴</h4>
         <ul class="footer-links">
-          <li><a href="https://mgw.os.kg" target="_blank" rel="noopener">甜瓜群组 - Melon group</a></li>
+          <li><a href="https://mgw.os.kg" target="_blank" rel="noopener"><span>甜瓜群组 - Melon group</span><svg class="ic footer-arrow" aria-hidden="true" focusable="false"><use href="#i-external-link"/></svg></a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4 class="footer-title">关于</h4>
         <ul class="footer-links">
-          <li><a href="http://dwz.cn/7M4l8HW7" target="_blank" rel="noopener">关于室长</a></li>
+          <li><a href="http://dwz.cn/7M4l8HW7" target="_blank" rel="noopener"><span>关于室长</span><svg class="ic footer-arrow" aria-hidden="true" focusable="false"><use href="#i-external-link"/></svg></a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4 class="footer-title">联系</h4>
-        <p class="footer-text">邮箱：<a href="mailto:xiyang9888@qq.com">xiyang9888@qq.com</a></p>
+        <p class="footer-text"><svg class="ic footer-mail" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg><span>邮箱：<a href="mailto:xiyang9888@qq.com">xiyang9888@qq.com</a></span></p>
       </div>
     </div>
     <div class="footer-bottom">
@@ -117,6 +120,10 @@
   </footer>
 
   <button class="back-to-top" id="backToTop" aria-label="返回顶部">
+    <svg class="btt-ring" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <circle class="btt-ring-track" cx="24" cy="24" r="21"></circle>
+      <circle class="btt-ring-progress" id="bttRing" cx="24" cy="24" r="21"></circle>
+    </svg>
     <svg class="ic btt-ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up"/></svg>
   </button>
   <script src="js/main.js"></script>

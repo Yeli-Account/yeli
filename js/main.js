@@ -25,17 +25,23 @@
   var progress = document.getElementById('scrollProgress');
   var backToTop = document.getElementById('backToTop');
   var cursorGlow = document.getElementById('cursorGlow');
+  var bttRing = document.getElementById('bttRing');
 
   function onScroll() {
     var y = window.scrollY;
     if (header) header.classList.toggle('scrolled', y > 20);
     if (backToTop) backToTop.classList.toggle('show', y > 480);
 
-    if (progress) {
+    if (progress || bttRing) {
       var doc = document.documentElement;
       var max = doc.scrollHeight - window.innerHeight;
       var ratio = max > 0 ? y / max : 0;
-      progress.style.width = (ratio * 100).toFixed(2) + '%';
+      if (progress) progress.style.width = (ratio * 100).toFixed(2) + '%';
+      if (bttRing) {
+        var CIRC = 2 * Math.PI * 21;
+        bttRing.style.strokeDasharray = CIRC;
+        bttRing.style.strokeDashoffset = (CIRC * (1 - ratio)).toFixed(2);
+      }
     }
   }
   window.addEventListener('scroll', onScroll, { passive: true });

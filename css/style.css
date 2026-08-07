@@ -37,6 +37,15 @@ img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
 
+a:focus-visible,
+button:focus-visible,
+.nav-link:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+a:focus:not(:focus-visible) { outline: none; }
+
 ::selection { background: #ffffff; color: #050507; }
 
 ::-webkit-scrollbar { width: 10px; }
@@ -132,11 +141,11 @@ main, footer { position: relative; z-index: 1; }
   position: fixed;
   top: 0;
   left: 0;
-  width: 420px;
-  height: 420px;
-  margin: -210px 0 0 -210px;
+  width: 440px;
+  height: 440px;
+  margin: -220px 0 0 -220px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0) 60%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 34%, rgba(255, 255, 255, 0) 64%);
   pointer-events: none;
   z-index: 6;
   opacity: 0;
@@ -206,6 +215,7 @@ main, footer { position: relative; z-index: 1; }
   height: 2px;
   border-radius: 2px;
   background: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s var(--ease-out);
@@ -238,55 +248,72 @@ main, footer { position: relative; z-index: 1; }
 .nav-toggle.open span:nth-child(2) { opacity: 0; }
 .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* ===== 按钮（克制的描边按钮，不抢视觉） ===== */
+/* ===== 按钮（全新材质：渐变 + 内高光 + 柔和光晕 + 图标微动） ===== */
 .btn {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 9px;
-  padding: 12px 30px;
+  padding: 12px 32px;
   border-radius: 1000px;
   font-size: 14.5px;
   font-weight: 600;
   letter-spacing: 1px;
   cursor: pointer;
-  background: #0c0c12;
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  transition: transform 0.25s var(--ease-out), background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  background: linear-gradient(180deg, #17171f 0%, #0c0c12 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.45);
+  transition: transform 0.25s var(--ease-out), border-color 0.25s ease, box-shadow 0.35s ease, background 0.3s ease;
 }
 .btn:hover {
   transform: translateY(-2px);
-  background: #17171f;
-  border-color: rgba(255, 255, 255, 0.45);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.6);
+  background: linear-gradient(180deg, #1e1e28 0%, #111119 100%);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.5),
+    0 0 26px rgba(255, 255, 255, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 .btn:active {
   transform: translateY(-1px) scale(0.98);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
+.btn .btn-ic {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.3s var(--ease-out), color 0.3s ease;
+}
+.btn:hover .btn-ic { transform: translateY(1px); }
+.btn-outline:hover .btn-ic { transform: translate(2px, -2px); }
+.btn .btn-text { position: relative; z-index: 1; }
 
 .btn-ghost {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.11);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 22px rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 .btn-outline {
   background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.24);
-  padding: 10px 24px;
+  border-color: rgba(255, 255, 255, 0.26);
+  padding: 10px 26px;
   font-size: 14px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 .btn-outline:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.11);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 22px rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
-.btn-ic { width: 15px; height: 15px; }
 
 /* ===== 通用 Section ===== */
 .section { padding: 120px 0; }
@@ -411,8 +438,8 @@ main, footer { position: relative; z-index: 1; }
 .hero-actions   { animation-delay: 0.54s; }
 
 @keyframes riseIn {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: none; }
+  from { opacity: 0; transform: translateY(24px); filter: blur(8px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
 }
 
 .hero-title {
@@ -439,6 +466,36 @@ main, footer { position: relative; z-index: 1; }
   gap: 20px;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+/* ===== Hero 滚动指示 ===== */
+.hero-scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 36px;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.16);
+  overflow: hidden;
+  z-index: 4;
+  opacity: 0;
+  animation: riseIn 0.9s var(--ease-out) 0.75s forwards;
+}
+.hero-scroll-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 14px;
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  animation: scrollDot 2.1s var(--ease-out) infinite;
+}
+@keyframes scrollDot {
+  0%   { transform: translateY(-16px); opacity: 0; }
+  25%  { opacity: 1; }
+  100% { transform: translateY(58px); opacity: 0; }
 }
 
 /* ===== 成员卡片 ===== */
@@ -670,12 +727,46 @@ main, footer { position: relative; z-index: 1; }
   position: relative;
   font-size: 14.5px;
   color: var(--text-dim);
+  transition: color 0.2s ease;
+}
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transition: color 0.2s ease, padding-left 0.25s var(--ease-out);
 }
 .footer-links a:hover,
 .footer-text a:hover { color: #ffffff; }
 .footer-links a:hover { padding-left: 6px; }
-.footer-text { font-size: 14.5px; color: var(--text-dim); word-break: break-all; }
+.footer-arrow {
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition: opacity 0.25s ease, transform 0.25s var(--ease-out);
+}
+.footer-links a:hover .footer-arrow {
+  opacity: 1;
+  transform: none;
+}
+.footer-text {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  font-size: 14.5px;
+  color: var(--text-dim);
+  word-break: break-all;
+}
+.footer-mail {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  align-self: flex-start;
+  margin-top: 6px;
+  color: var(--text-faint);
+  transition: color 0.2s ease;
+}
+.footer-text:hover .footer-mail { color: #ffffff; }
 
 .footer-bottom {
   border-top: 1px solid var(--border);
@@ -766,25 +857,26 @@ main, footer { position: relative; z-index: 1; }
 }
 .contact-line:hover .contact-ic { color: #ffffff; }
 
-/* ===== 返回顶部 ===== */
+/* ===== 返回顶部（进度环） ===== */
 .back-to-top {
   position: fixed;
   right: 28px;
   bottom: 28px;
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(11, 11, 16, 0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  border: 0;
+  background: rgba(11, 11, 16, 0.62);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   color: #ffffff;
   cursor: pointer;
   z-index: 300;
   opacity: 0;
-  transform: translateY(16px);
+  transform: translateY(16px) scale(0.9);
   pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s var(--ease-out), background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: opacity 0.35s ease, transform 0.35s var(--ease-out), background 0.3s ease, box-shadow 0.3s ease;
 }
 .back-to-top.show {
   opacity: 1;
@@ -792,22 +884,53 @@ main, footer { position: relative; z-index: 1; }
   pointer-events: auto;
 }
 .back-to-top:hover {
-  background: #ffffff;
-  color: #050507;
-  border-color: #ffffff;
+  background: rgba(23, 23, 31, 0.85);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 26px rgba(255, 255, 255, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
-.btt-ic { width: 19px; height: 19px; }
+.btt-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transform: rotate(-90deg);
+}
+.btt-ring-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.14);
+  stroke-width: 2;
+}
+.btt-ring-progress {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 131.95;
+  stroke-dashoffset: 131.95;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+  transition: stroke-dashoffset 0.15s linear;
+}
+.btt-ic {
+  position: relative;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s var(--ease-out);
+}
+.back-to-top:hover .btt-ic { transform: translateY(-2px); }
 
 /* ===== 滚动入场动画 ===== */
 .reveal {
   opacity: 0;
   transform: translateY(24px) scale(0.985);
-  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
-  will-change: opacity, transform;
+  filter: blur(6px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out), filter 0.7s var(--ease-out);
+  will-change: opacity, transform, filter;
 }
 .reveal.visible {
   opacity: 1;
   transform: none;
+  filter: blur(0);
 }
 
 .member-card:active,
@@ -826,5 +949,6 @@ main, footer { position: relative; z-index: 1; }
   .hero-title,
   .hero-subtitle,
   .hero-actions { opacity: 1; animation: none; }
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .hero-scroll { opacity: 0; }
+  .reveal { opacity: 1; transform: none; filter: none; transition: none; }
 }
