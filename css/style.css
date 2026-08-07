@@ -659,12 +659,8 @@ main, footer { position: relative; z-index: 1; }
   border-radius: 26px;
   border: 1px solid var(--border);
   z-index: 0;
-  animation: joinBreathe 26s ease-in-out infinite alternate;
+  animation: kenburns 42s ease-in-out infinite alternate;
   will-change: transform;
-}
-@keyframes joinBreathe {
-  from { transform: scale(1) translate(0, 0); }
-  to   { transform: scale(1.08) translate(1%, -1%); }
 }
 .join-overlay {
   position: absolute;
@@ -676,25 +672,7 @@ main, footer { position: relative; z-index: 1; }
   z-index: 1;
   background:
     radial-gradient(ellipse at center, rgba(5, 5, 7, 0.52) 0%, rgba(5, 5, 7, 0.93) 100%);
-  animation: joinBreathe 26s ease-in-out infinite alternate;
-  will-change: transform;
 }
-/* 缓慢的扫描光束，围绕卡片旋转掠过 */
-.join::after {
-  content: "";
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  right: 24px;
-  bottom: 24px;
-  border-radius: 26px;
-  z-index: 1;
-  pointer-events: none;
-  background: conic-gradient(from 0deg, transparent 0deg, rgba(255, 255, 255, 0.06) 20deg, transparent 50deg);
-  mix-blend-mode: screen;
-  animation: joinSweep 9s linear infinite;
-}
-@keyframes joinSweep { to { transform: rotate(360deg); } }
 
 .join-content {
   position: relative;
@@ -1063,8 +1041,6 @@ main, footer { position: relative; z-index: 1; }
   .hero-actions { opacity: 1; animation: none; }
   .hero-scroll { opacity: 0; }
   .join-bg,
-  .join-overlay,
-  .join::after,
   .join-badge { animation: none; }
   .page::before { animation: none; opacity: 0.7; }
   .reveal { opacity: 1; transform: none; filter: none; transition: none; }
