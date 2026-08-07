@@ -1,6 +1,24 @@
 (function () {
   'use strict';
 
+  /* ===== 强制电脑版视图：窄屏设备一律按 1280px 桌面布局渲染 ===== */
+  function forceDesktopView() {
+    var vp = document.querySelector('meta[name="viewport"]');
+    if (!vp) {
+      vp = document.createElement('meta');
+      vp.name = 'viewport';
+      document.head.appendChild(vp);
+    }
+    function assert() {
+      if (document.documentElement.clientWidth < 1280) {
+        vp.setAttribute('content', 'width=1280');
+      }
+    }
+    assert();
+    window.addEventListener('resize', assert, { passive: true });
+  }
+  forceDesktopView();
+
   var header = document.getElementById('siteHeader');
   var navToggle = document.getElementById('navToggle');
   var nav = document.getElementById('mainNav');
@@ -116,4 +134,110 @@ var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'))
       requestAnimationFrame(loop);
     })();
   }
+
+  /* ===== 预加载动画 ===== */
+  function initPreloader() {
+    var pre = document.getElementById('preloader');
+    if (!pre) return;
+    function hide() { pre.classList.add('hide'); }
+    if (document.readyState === 'complete') hide();
+    else window.addEventListener('load', hide);
+    setTimeout(hide, 2600);
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) hide();
+  }
+  initPreloader();
+
+  /* ===== 粒子光效背景（白色星尘 + 微光连线） ===== */
+  function initParticles() {
+    var canvas = document.getElementById('particles');
+    if (!canvas) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var ctx = canvas.getContext('2d');
+    var W = 0, H = 0, parts = [];
+    var COUNT = 72;
+    var LINK_DIST = 140;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function spawn() {
+      parts = [];
+      for (var i = 0; i < COUNT; i++) {
+        parts.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.32,
+          vy: (Math.random() - 0.5) * 0.32,
+          r: Math.random() * 1.6 + 0.7
+        });
+      }
+    }
+
+    function tick() {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = W;
+        else if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H;
+        else if (p.y > H) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.fill();
+
+        for (var j = i + 1; j < parts.length; j++) {
+          var q = parts[j];
+          var dx = p.x - q.x;
+          var dy = p.y - q.y;
+          var d2 = dx * dx + dy * dy;
+          if (d2 < LINK_DIST * LINK_DIST) {
+            var a = 0.13 * (1 - Math.sqrt(d2) / LINK_DIST);
+            ctx.strokeStyle = 'rgba(255,255,255,' + a.toFixed(3) + ')';
+            ctx.lineWidth = 0.6;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    resize();
+    spawn();
+    tick();
+    window.addEventListener('resize', function () { resize(); spawn(); }, { passive: true });
+  }
+  initParticles();
+
+  /* ===== 卡片 3D 悬浮倾斜 ===== */
+  function initTilt() {
+    if (!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    var cards = Array.prototype.slice.call(document.querySelectorAll('[data-tilt]'));
+    var MAX = 7;
+    cards.forEach(function (card) {
+      card.addEventListener('pointerenter', function () { card.classList.add('tilting'); });
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform =
+          'perspective(900px) rotateY(' + (px * MAX).toFixed(2) + 'deg) rotateX(' +
+          (-py * MAX).toFixed(2) + 'deg) translateY(-4px)';
+      });
+      card.addEventListener('pointerleave', function () {
+        card.classList.remove('tilting');
+        card.style.transform = '';
+      });
+    });
+  }
+  initTilt();
 })();
