@@ -282,4 +282,19 @@ var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'))
     });
   }
   initHeroParallax();
+
+  /* ===== 点击涟漪 ===== */
+  function initClickRing() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    function spawn(e) {
+      var ring = document.createElement('span');
+      ring.className = 'click-ring';
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+      document.body.appendChild(ring);
+      setTimeout(function () { ring.remove(); }, 700);
+    }
+    window.addEventListener('pointerdown', spawn, { passive: true });
+  }
+  initClickRing();
 })();
