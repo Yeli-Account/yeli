@@ -246,4 +246,40 @@ var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'))
     });
   }
   initTilt();
+
+  /* ===== 磁吸按钮 ===== */
+  function initMagnetic() {
+    if (!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    var btns = Array.prototype.slice.call(document.querySelectorAll('.hero-actions .btn, .join-actions .btn'));
+    btns.forEach(function (btn) {
+      var strength = 0.22;
+      btn.addEventListener('pointermove', function (e) {
+        var r = btn.getBoundingClientRect();
+        var dx = (e.clientX - r.left - r.width / 2) * strength;
+        var dy = (e.clientY - r.top - r.height / 2) * strength;
+        btn.style.transform = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px)';
+      });
+      btn.addEventListener('pointerleave', function () {
+        btn.style.transform = '';
+      });
+    });
+  }
+  initMagnetic();
+
+  /* ===== Hero 背景鼠标视差 ===== */
+  function initHeroParallax() {
+    var hero = document.querySelector('.hero');
+    var bg = document.querySelector('.hero-bg');
+    if (!hero || !bg) return;
+    if (!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    hero.addEventListener('pointermove', function (e) {
+      var nx = e.clientX / window.innerWidth - 0.5;
+      var ny = e.clientY / window.innerHeight - 0.5;
+      bg.style.transform = 'scale(1.09) translate(' + (nx * -20).toFixed(1) + 'px,' + (ny * -14).toFixed(1) + 'px)';
+    });
+    hero.addEventListener('pointerleave', function () {
+      bg.style.transform = '';
+    });
+  }
+  initHeroParallax();
 })();
