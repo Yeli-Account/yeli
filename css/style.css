@@ -892,29 +892,33 @@ main, footer { position: relative; z-index: 1; }
 .join::after {
   content: "";
   position: absolute;
-  left: 24px;
-  right: 24px;
-  top: -30%;
-  height: 210px;
+  left: 18px;
+  right: 18px;
+  top: 18px;
+  bottom: 18px;
+  border-radius: 32px;
   z-index: 2;
-  border-radius: 210px;
-  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.07), transparent);
-  filter: blur(3px);
   pointer-events: none;
-  animation: joinScan 8.5s var(--ease-out) infinite;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(42% 50% at 26% 28%, rgba(255, 255, 255, 0.12), transparent 70%),
+    radial-gradient(34% 42% at 78% 24%, rgba(255, 255, 255, 0.09), transparent 70%),
+    radial-gradient(30% 38% at 55% 88%, rgba(255, 255, 255, 0.06), transparent 72%);
+  filter: blur(8px);
+  opacity: 0.85;
+  animation: auroraDrift 16s ease-in-out infinite alternate;
 }
-@keyframes joinScan {
-  0%, 10%        { transform: translateY(0); opacity: 0; }
-  13%            { opacity: 1; }
-  58%, 88%       { transform: translateY(640px); opacity: 1; }
-  94%, 100%      { transform: translateY(640px); opacity: 0; }
+@keyframes auroraDrift {
+  0%   { transform: translate3d(-1.6%, -1.2%, 0) rotate(-1.4deg) scale(1); }
+  50%  { transform: translate3d(1.4%, 1.6%, 0) rotate(0.9deg) scale(1.05); }
+  100% { transform: translate3d(-0.8%, 2%, 0) rotate(-0.5deg) scale(1.02); }
 }
 .join-orb {
   position: absolute;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.13), transparent 70%);
   filter: blur(42px);
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
 }
 .join-orb.o1 {
@@ -949,7 +953,7 @@ main, footer { position: relative; z-index: 1; }
 
 .join-content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   text-align: center;
   padding: 64px 20px;
   display: flex;
