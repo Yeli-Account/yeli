@@ -16,6 +16,7 @@
   --sky: #86EFAC;
   --pink: #BBF7D0;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --font: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", "Cascadia Code", "Consolas", "SF Mono", monospace;
 }
@@ -444,20 +445,21 @@ main, footer { position: relative; z-index: 1; }
   color: var(--ink);
   background: var(--paper-2);
   box-shadow: 5px 5px 0 var(--shadow-color);
-  transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out), background 0.2s ease, color 0.2s ease;
+  transition: transform 0.18s var(--ease-spring), box-shadow 0.18s var(--ease-spring), background 0.2s ease, color 0.2s ease;
 }
 .btn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 8px 8px 0 var(--shadow-color);
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--shadow-color);
   background: var(--accent-2);
   color: var(--ink);
 }
 .btn:active {
-  transform: translate(3px, 3px);
+  transform: translate(3px, 3px) scale(0.98);
   box-shadow: 0 0 0 var(--shadow-color);
 }
-.btn .btn-ic { width: 16px; height: 16px; transition: transform 0.25s var(--ease-out); }
-.btn:hover .btn-ic { transform: translateY(2px); }
+.btn .btn-ic { width: 16px; height: 16px; transition: transform 0.3s var(--ease-spring); }
+.btn:hover .btn-ic { transform: translateY(2px) rotate(-8deg); }
+.btn:active .btn-ic { transform: translateY(3px); }
 .btn-outline:hover .btn-ic { transform: translate(2px, -2px); }
 .btn .btn-text { position: relative; z-index: 1; }
 
@@ -1077,12 +1079,12 @@ main, footer { position: relative; z-index: 1; }
 }
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr 1fr;
   gap: 40px;
   padding: 76px 0 56px;
 }
 .page-contact .footer-grid {
-  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr;
 }
 .footer-logo {
   max-width: 260px;
@@ -1094,9 +1096,10 @@ main, footer { position: relative; z-index: 1; }
   transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease;
 }
 [data-theme="light"] .footer-logo {
-  background: var(--accent-2);
+  background: var(--paper-2);
   border-color: var(--ink);
   box-shadow: 6px 6px 0 var(--ink);
+  filter: brightness(0);
 }
 .footer-logo:hover {
   transform: rotate(-2deg) translate(-2px, -2px);
@@ -1461,7 +1464,6 @@ a.contact-tile-value:hover {
 
 .member-card:active,
 .work-card:active { transform: scale(0.98); }
-.btn:active { transform: scale(0.98); }
 
 .member-card.tilting,
 .work-card.tilting { transition: transform 0.09s linear; }
@@ -1470,7 +1472,8 @@ a.contact-tile-value:hover {
 @media (max-width: 1100px) {
   .member-grid { grid-template-columns: repeat(2, 1fr); }
   .work-grid { grid-template-columns: repeat(2, 1fr); }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid,
+  .page-contact .footer-grid { grid-template-columns: 1fr 1fr; }
   .hero-aurora::before { right: 4%; width: 96px; height: 96px; font-size: 30px; }
   .page::before { right: 4%; width: 88px; height: 88px; font-size: 28px; }
 }
@@ -1541,7 +1544,8 @@ a.contact-tile-value:hover {
   .join-content { padding: 24px 12px; }
   .join-title { font-size: 28px; }
 
-  .footer-grid { grid-template-columns: 1fr; gap: 26px; padding: 50px 0 40px; }
+  .footer-grid,
+  .page-contact .footer-grid { grid-template-columns: 1fr; gap: 26px; padding: 50px 0 40px; }
   .footer-logo { max-width: 190px; }
   .footer-bottom-inner { flex-direction: column; gap: 6px; }
 
@@ -1560,7 +1564,7 @@ a.contact-tile-value:hover {
 
 /* ===== 触屏设备（data-touch 由 JS 标记）：禁用悬停位移，保留按压反馈 ===== */
 [data-touch] .btn:hover { transform: none; box-shadow: 5px 5px 0 var(--shadow-color); background: var(--paper-2); }
-[data-touch] .btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--shadow-color); }
+[data-touch] .btn:active { transform: translate(3px, 3px) scale(0.97); box-shadow: 0 0 0 var(--shadow-color); transition-duration: 0.1s; }
 [data-touch] .btn-primary:hover { background: var(--accent); color: var(--ink); }
 [data-touch] .btn-primary:active { background: var(--accent); color: var(--ink); }
 [data-touch] .btn-ghost:hover,
