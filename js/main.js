@@ -26,14 +26,14 @@
   }
   initTheme();
 
-  /* ===== 配色主题（默认黄 / 绿 / 蓝 / 紫） ===== */
+  /* ===== 配色主题（默认绿 / 黄 / 蓝 / 紫） ===== */
   function initPalette() {
     var root = document.documentElement;
     var btn = document.getElementById('paletteToggle');
     var pop = document.getElementById('palettePop');
     var stored = null;
     try { stored = localStorage.getItem('xs-accent'); } catch (e) {}
-    var accent = stored || 'yellow';
+    var accent = stored || 'green';
     root.setAttribute('data-accent', accent);
 
     function mark() {

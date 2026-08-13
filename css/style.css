@@ -10,11 +10,11 @@
   --line-soft: rgba(20, 20, 20, 0.35);
   --line-grid: rgba(20, 20, 20, 0.055);
   --shadow-color: #141414;
-  --accent: #FFD43B;
-  --accent-2: #FF6B5E;
-  --mint: #A9E5BB;
-  --sky: #B8D4FF;
-  --pink: #FFB3C7;
+  --accent: #84CC16;
+  --accent-2: #16A34A;
+  --mint: #A3E635;
+  --sky: #86EFAC;
+  --pink: #BBF7D0;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --font: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", "Cascadia Code", "Consolas", "SF Mono", monospace;
@@ -32,7 +32,14 @@
   --shadow-color: #000000;
 }
 
-/* ===== 配色主题（默认黄 / 绿 / 蓝 / 紫） ===== */
+/* ===== 配色主题（默认绿 / 黄 / 蓝 / 紫） ===== */
+[data-accent="yellow"] {
+  --accent: #FFD43B;
+  --accent-2: #FF6B5E;
+  --mint: #A9E5BB;
+  --sky: #B8D4FF;
+  --pink: #FFB3C7;
+}
 [data-accent="green"] {
   --accent: #84CC16;
   --accent-2: #16A34A;
@@ -83,6 +90,11 @@ button:focus-visible,
   border-radius: 0;
 }
 a:focus:not(:focus-visible) { outline: none; }
+
+a, button, .btn, .nav-link, .swatch, .theme-toggle, .palette-toggle, .nav-toggle, .back-to-top, .work-view, .contact-tile, .footer-links a {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
 
 ::selection { background: var(--accent); color: var(--ink); }
 
@@ -272,6 +284,10 @@ main, footer { position: relative; z-index: 1; }
   transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease;
 }
 .brand:hover img { transform: rotate(-2deg) scale(1.03); }
+
+.brand .brand-logo-dark { display: none; }
+[data-theme="dark"] .brand .brand-logo-light { display: none; }
+[data-theme="dark"] .brand .brand-logo-dark { display: block; }
 
 .nav { display: flex; gap: 12px; margin-left: auto; }
 
@@ -1074,6 +1090,11 @@ main, footer { position: relative; z-index: 1; }
   padding: 10px;
   transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease;
 }
+[data-theme="light"] .footer-logo {
+  background: var(--ink);
+  border-color: var(--paper);
+  box-shadow: 6px 6px 0 var(--accent);
+}
 .footer-logo:hover {
   transform: rotate(-2deg) translate(-2px, -2px);
   box-shadow: 9px 9px 0 var(--shadow-color);
@@ -1532,6 +1553,40 @@ a.contact-tile-value:hover {
   .back-to-top { right: 16px; bottom: 16px; width: 48px; height: 48px; }
   .cursor-glow { display: none; }
   #particles { opacity: 0.3; }
+}
+
+/* ===== 触屏设备：禁用悬停位移，避免「第一下没反应」 ===== */
+@media (hover: none) and (pointer: coarse) {
+  .btn:hover { transform: none; box-shadow: 5px 5px 0 var(--shadow-color); background: var(--paper-2); }
+  .btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--shadow-color); }
+  .btn-primary:hover { background: var(--accent); color: var(--ink); }
+  .btn-primary:active { background: var(--accent); color: var(--ink); }
+  .btn-ghost:hover,
+  .btn-outline:hover { background: transparent; }
+  .join-actions .btn-primary:hover { background: var(--ink); color: var(--paper); }
+  .join-actions .btn-primary:active { background: var(--ink); color: var(--paper); }
+  .nav-link:hover { background: var(--paper-2); color: var(--ink); box-shadow: none; transform: none; }
+  .member-card:hover,
+  .work-card:hover { transform: none; box-shadow: 8px 8px 0 var(--shadow-color); }
+  .theme-toggle:hover,
+  .palette-toggle:hover { transform: none; box-shadow: 3px 3px 0 var(--shadow-color); background: var(--paper-2); }
+  .swatch:hover { transform: none; }
+  .brand:hover img,
+  .footer-logo:hover { transform: none; box-shadow: 6px 6px 0 var(--shadow-color); }
+  .contact-tile:hover { transform: none; box-shadow: 5px 5px 0 var(--shadow-color); background: var(--paper-2); }
+  .page-content:hover { transform: none; box-shadow: 8px 8px 0 var(--shadow-color); }
+  .back-to-top:hover { transform: none; box-shadow: 5px 5px 0 var(--shadow-color); background: var(--accent); }
+  .join-badge:hover { transform: rotate(-6deg); background: var(--paper-2); }
+  .footer-links a:hover { padding-left: 0; background: none; margin: 0; padding: 2px 8px 2px 8px; }
+}
+
+/* ===== 移动端安全区（iPhone 手势条等） ===== */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .footer-bottom { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+  .back-to-top { bottom: calc(28px + env(safe-area-inset-bottom, 0px)); }
+  @media (max-width: 768px) {
+    .back-to-top { bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
