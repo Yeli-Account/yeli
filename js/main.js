@@ -1,24 +1,6 @@
 (function () {
   'use strict';
 
-  /* ===== 强制电脑版视图：窄屏设备一律按 1280px 桌面布局渲染 ===== */
-  function forceDesktopView() {
-    var vp = document.querySelector('meta[name="viewport"]');
-    if (!vp) {
-      vp = document.createElement('meta');
-      vp.name = 'viewport';
-      document.head.appendChild(vp);
-    }
-    function assert() {
-      if (document.documentElement.clientWidth < 1280) {
-        vp.setAttribute('content', 'width=1280');
-      }
-    }
-    assert();
-    window.addEventListener('resize', assert, { passive: true });
-  }
-  forceDesktopView();
-
   /* ===== 双主题（浅色 / 深色，新粗野主义） ===== */
   function initTheme() {
     var root = document.documentElement;
@@ -43,6 +25,50 @@
     }
   }
   initTheme();
+
+  /* ===== 配色主题（默认黄 / 绿 / 蓝 / 紫） ===== */
+  function initPalette() {
+    var root = document.documentElement;
+    var btn = document.getElementById('paletteToggle');
+    var pop = document.getElementById('palettePop');
+    var stored = null;
+    try { stored = localStorage.getItem('xs-accent'); } catch (e) {}
+    var accent = stored || 'yellow';
+    root.setAttribute('data-accent', accent);
+
+    function mark() {
+      var list = pop ? pop.querySelectorAll('.swatch') : [];
+      for (var i = 0; i < list.length; i++) {
+        list[i].classList.toggle('active', list[i].getAttribute('data-accent') === accent);
+      }
+    }
+    mark();
+
+    if (btn && pop) {
+      btn.addEventListener('click', function () {
+        var open = pop.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('click', function (e) {
+        if (!pop.contains(e.target) && e.target !== btn) {
+          pop.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+      var swatches = pop.querySelectorAll('.swatch');
+      for (var i = 0; i < swatches.length; i++) {
+        swatches[i].addEventListener('click', function () {
+          accent = this.getAttribute('data-accent');
+          root.setAttribute('data-accent', accent);
+          try { localStorage.setItem('xs-accent', accent); } catch (e) {}
+          mark();
+          pop.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      }
+    }
+  }
+  initPalette();
 
   var header = document.getElementById('siteHeader');
   var navToggle = document.getElementById('navToggle');

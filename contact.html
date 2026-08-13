@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=1280">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#F2EFE8">
   <title>联系方式 - XS工作室官方网站</title>
   <meta name="description" content="《Melon Sandbox》非官方玩家组织">
@@ -37,6 +37,10 @@
     <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
     </symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/>
+      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+    </symbol>
   </svg>
 
   <canvas id="particles" aria-hidden="true"></canvas>
@@ -62,10 +66,23 @@
         <a href="about.html" class="nav-link">关于我们</a>
         <a href="contact.html" class="nav-link active">联系方式</a>
       </nav>
-      <button class="theme-toggle" id="themeToggle" aria-label="切换深色/浅色主题">
-        <svg class="ic tt-ic tt-moon" aria-hidden="true" focusable="false"><use href="#i-moon"/></svg>
-        <svg class="ic tt-ic tt-sun" aria-hidden="true" focusable="false"><use href="#i-sun"/></svg>
-      </button>
+      <div class="theme-controls">
+        <div class="palette-wrap">
+          <button class="palette-toggle" id="paletteToggle" aria-label="切换配色主题" aria-expanded="false">
+            <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-palette"/></svg>
+          </button>
+          <div class="palette-pop" id="palettePop">
+            <button class="swatch" data-accent="yellow" aria-label="黄色主题"></button>
+            <button class="swatch" data-accent="green" aria-label="绿色主题"></button>
+            <button class="swatch" data-accent="blue" aria-label="蓝色主题"></button>
+            <button class="swatch" data-accent="purple" aria-label="紫色主题"></button>
+          </div>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="切换深色/浅色主题">
+          <svg class="ic tt-ic tt-moon" aria-hidden="true" focusable="false"><use href="#i-moon"/></svg>
+          <svg class="ic tt-ic tt-sun" aria-hidden="true" focusable="false"><use href="#i-sun"/></svg>
+        </button>
+      </div>
       <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
