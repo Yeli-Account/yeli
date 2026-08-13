@@ -1091,9 +1091,9 @@ main, footer { position: relative; z-index: 1; }
   transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease;
 }
 [data-theme="light"] .footer-logo {
-  background: var(--ink);
-  border-color: var(--paper);
-  box-shadow: 6px 6px 0 var(--accent);
+  background: var(--accent-2);
+  border-color: var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
 }
 .footer-logo:hover {
   transform: rotate(-2deg) translate(-2px, -2px);
