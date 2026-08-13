@@ -19,6 +19,31 @@
   }
   forceDesktopView();
 
+  /* ===== 双主题（浅色 / 深色，新粗野主义） ===== */
+  function initTheme() {
+    var root = document.documentElement;
+    var btn = document.getElementById('themeToggle');
+    var meta = document.querySelector('meta[name="theme-color"]');
+    var stored = null;
+    try { stored = localStorage.getItem('xs-theme'); } catch (e) {}
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var theme = stored || (prefersDark ? 'dark' : 'light');
+    function apply(t) {
+      root.setAttribute('data-theme', t);
+      if (btn) btn.classList.toggle('dark', t === 'dark');
+      if (meta) meta.setAttribute('content', t === 'dark' ? '#151513' : '#F2EFE8');
+      try { localStorage.setItem('xs-theme', t); } catch (e) {}
+    }
+    apply(theme);
+    if (btn) {
+      btn.addEventListener('click', function () {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        apply(theme);
+      });
+    }
+  }
+  initTheme();
+
   var header = document.getElementById('siteHeader');
   var navToggle = document.getElementById('navToggle');
   var nav = document.getElementById('mainNav');
@@ -164,6 +189,12 @@ var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'))
     var COUNT = 72;
     var LINK_DIST = 140;
 
+    function inkRgb() {
+      var v = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#141414';
+      var n = parseInt(v.replace('#', ''), 16);
+      return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+    }
+
     function resize() {
       W = canvas.width = window.innerWidth;
       H = canvas.height = window.innerHeight;
@@ -184,6 +215,7 @@ var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'))
 
     function tick() {
       ctx.clearRect(0, 0, W, H);
+      var rgb = inkRgb();
       for (var i = 0; i < parts.length; i++) {
         var p = parts[i];
         p.x += p.vx;
@@ -195,7 +227,7 @@ var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'))
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.fillStyle = 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',0.4)';
         ctx.fill();
 
         for (var j = i + 1; j < parts.length; j++) {
@@ -204,9 +236,9 @@ var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'))
           var dy = p.y - q.y;
           var d2 = dx * dx + dy * dy;
           if (d2 < LINK_DIST * LINK_DIST) {
-            var a = 0.13 * (1 - Math.sqrt(d2) / LINK_DIST);
-            ctx.strokeStyle = 'rgba(255,255,255,' + a.toFixed(3) + ')';
-            ctx.lineWidth = 0.6;
+            var a = 0.12 * (1 - Math.sqrt(d2) / LINK_DIST);
+            ctx.strokeStyle = 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + a.toFixed(3) + ')';
+            ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(q.x, q.y);

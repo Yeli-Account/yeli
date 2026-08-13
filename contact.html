@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=1280">
-  <meta name="theme-color" content="#050507">
+  <meta name="theme-color" content="#F2EFE8">
   <title>联系方式 - XS工作室官方网站</title>
   <meta name="description" content="《Melon Sandbox》非官方玩家组织">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
@@ -31,6 +31,12 @@
     <symbol id="i-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/>
     </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+    </symbol>
   </svg>
 
   <canvas id="particles" aria-hidden="true"></canvas>
@@ -56,6 +62,10 @@
         <a href="about.html" class="nav-link">关于我们</a>
         <a href="contact.html" class="nav-link active">联系方式</a>
       </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="切换深色/浅色主题">
+        <svg class="ic tt-ic tt-moon" aria-hidden="true" focusable="false"><use href="#i-moon"/></svg>
+        <svg class="ic tt-ic tt-sun" aria-hidden="true" focusable="false"><use href="#i-sun"/></svg>
+      </button>
       <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
