@@ -1,6 +1,16 @@
 (function () {
   'use strict';
 
+  /* ===== 触摸设备检测：覆盖 hover 粘滞导致的「点不动」 ===== */
+  function initTouchMode() {
+    var root = document.documentElement;
+    var touch = ('ontouchstart' in window) ||
+      (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) ||
+      (window.PointerEvent && window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    if (touch) root.setAttribute('data-touch', '');
+  }
+  initTouchMode();
+
   /* ===== 双主题（浅色 / 深色，新粗野主义） ===== */
   function initTheme() {
     var root = document.documentElement;
@@ -50,7 +60,7 @@
         btn.setAttribute('aria-expanded', String(open));
       });
       document.addEventListener('click', function (e) {
-        if (!pop.contains(e.target) && e.target !== btn) {
+        if (!pop.contains(e.target) && !btn.contains(e.target)) {
           pop.classList.remove('open');
           btn.setAttribute('aria-expanded', 'false');
         }

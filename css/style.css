@@ -1558,30 +1558,31 @@ a.contact-tile-value:hover {
   #particles { opacity: 0.3; }
 }
 
-/* ===== 触屏设备：禁用悬停位移，避免「第一下没反应」 ===== */
-@media (hover: none) and (pointer: coarse) {
-  .btn:hover { transform: none; box-shadow: 5px 5px 0 var(--shadow-color); background: var(--paper-2); }
-  .btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--shadow-color); }
-  .btn-primary:hover { background: var(--accent); color: var(--ink); }
-  .btn-primary:active { background: var(--accent); color: var(--ink); }
-  .btn-ghost:hover,
-  .btn-outline:hover { background: transparent; }
-  .join-actions .btn-primary:hover { background: var(--ink); color: var(--paper); }
-  .join-actions .btn-primary:active { background: var(--ink); color: var(--paper); }
-  .nav-link:hover { background: var(--paper-2); color: var(--ink); box-shadow: none; transform: none; }
-  .member-card:hover,
-  .work-card:hover { transform: none; box-shadow: 8px 8px 0 var(--shadow-color); }
-  .theme-toggle:hover,
-  .palette-toggle:hover { transform: none; box-shadow: 3px 3px 0 var(--shadow-color); background: var(--paper-2); }
-  .swatch:hover { transform: none; }
-  .brand:hover img,
-  .footer-logo:hover { transform: none; box-shadow: 6px 6px 0 var(--shadow-color); }
-  .contact-tile:hover { transform: none; box-shadow: 5px 5px 0 var(--shadow-color); background: var(--paper-2); }
-  .page-content:hover { transform: none; box-shadow: 8px 8px 0 var(--shadow-color); }
-  .back-to-top:hover { transform: none; box-shadow: 5px 5px 0 var(--shadow-color); background: var(--accent); }
-  .join-badge:hover { transform: rotate(-6deg); background: var(--paper-2); }
-  .footer-links a:hover { padding-left: 0; background: none; margin: 0; padding: 2px 8px 2px 8px; }
-}
+/* ===== 触屏设备（data-touch 由 JS 标记）：禁用悬停位移，保留按压反馈 ===== */
+[data-touch] .btn:hover { transform: none; box-shadow: 5px 5px 0 var(--shadow-color); background: var(--paper-2); }
+[data-touch] .btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--shadow-color); }
+[data-touch] .btn-primary:hover { background: var(--accent); color: var(--ink); }
+[data-touch] .btn-primary:active { background: var(--accent); color: var(--ink); }
+[data-touch] .btn-ghost:hover,
+[data-touch] .btn-outline:hover { background: transparent; }
+[data-touch] .join-actions .btn-primary:hover { background: var(--ink); color: var(--paper); }
+[data-touch] .join-actions .btn-primary:active { background: var(--ink); color: var(--paper); }
+[data-touch] .nav-link:hover { background: var(--paper-2); color: var(--ink); box-shadow: none; transform: none; }
+[data-touch] .member-card:hover,
+[data-touch] .work-card:hover { transform: none; box-shadow: 8px 8px 0 var(--shadow-color); }
+[data-touch] .theme-toggle:hover,
+[data-touch] .palette-toggle:hover { transform: none; box-shadow: 3px 3px 0 var(--shadow-color); background: var(--paper-2); }
+[data-touch] .theme-toggle:active,
+[data-touch] .palette-toggle:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--shadow-color); }
+[data-touch] .swatch:hover { transform: none; }
+[data-touch] .swatch:active { transform: scale(0.9) rotate(-6deg); }
+[data-touch] .brand:hover img,
+[data-touch] .footer-logo:hover { transform: none; box-shadow: 6px 6px 0 var(--shadow-color); }
+[data-touch] .contact-tile:hover { transform: none; box-shadow: 5px 5px 0 var(--shadow-color); background: var(--paper-2); }
+[data-touch] .page-content:hover { transform: none; box-shadow: 8px 8px 0 var(--shadow-color); }
+[data-touch] .back-to-top:hover { transform: none; box-shadow: 5px 5px 0 var(--shadow-color); background: var(--accent); }
+[data-touch] .join-badge:hover { transform: rotate(-6deg); background: var(--paper-2); }
+[data-touch] .footer-links a:hover { padding-left: 0; background: none; margin: 0; padding: 2px 8px 2px 8px; }
 
 /* ===== 移动端安全区（iPhone 手势条等） ===== */
 @supports (padding: env(safe-area-inset-bottom)) {
