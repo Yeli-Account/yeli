@@ -1081,6 +1081,9 @@ main, footer { position: relative; z-index: 1; }
   gap: 40px;
   padding: 76px 0 56px;
 }
+.page-contact .footer-grid {
+  grid-template-columns: 1.4fr 1fr 1fr;
+}
 .footer-logo {
   max-width: 260px;
   height: auto;
