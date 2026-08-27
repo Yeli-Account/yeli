@@ -10,6 +10,33 @@
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
   <link rel="apple-touch-icon" href="images/favicon-180.png">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* LiquidGlass 容器：确保内部玻璃卡片可见背景 */
+    #lg-root {
+      position: relative;
+      display: contents;
+    }
+    /* 为 LiquidGlass 覆盖原有 .glass 硬边风格，改用最细微的玻璃效果 */
+    .lg-glass {
+      --_blur: 0.06;
+      --_refract: 0.18;
+      --_edge: 0.12;
+      --_fresnel: 0.6;
+      --_shadow: 0.25;
+      --_corner: 18px;
+      background: rgba(255,255,255,0.18);
+      border: 2px solid rgba(255,255,255,0.35);
+      box-shadow: 4px 4px 0 var(--shadow-color);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    [data-theme="dark"] .lg-glass {
+      background: rgba(255,255,255,0.07);
+      border: 2px solid rgba(255,255,255,0.15);
+    }
+    /* member-card / work-card 保留原有 neo-brutalist 风格不变 */
+    /* lg-glass 仅作为数据属性标记，实际渲染由 JS 注入 WebGL canvas */
+  </style>
 </head>
 <body>
 
@@ -144,31 +171,33 @@
       <div class="container">
         <p class="section-eyebrow reveal">成员头像与昵称以活跃平台为准</p>
         <h2 class="section-title reveal">工作室部分成员</h2>
-        <div class="member-grid">
-          <figure class="member-card glass reveal" data-tilt>
-            <span class="member-idx">01</span>
-            <img class="member-avatar" src="images/avatar-xiaoshen.png" alt="小神">
-            <figcaption class="member-name">小神</figcaption>
-            <p class="member-role">XS工作室 | 负责人/创始人</p>
-          </figure>
-          <figure class="member-card glass reveal" data-tilt>
-            <span class="member-idx">02</span>
-            <img class="member-avatar" src="images/avatar-shenggua.jpg" alt="生瓜ewe（fukk）">
-            <figcaption class="member-name">生瓜ewe（fukk）</figcaption>
-            <p class="member-role">XS工作室 | 管理</p>
-          </figure>
-          <figure class="member-card glass reveal" data-tilt>
-            <span class="member-idx">03</span>
-            <img class="member-avatar" src="images/avatar-liziqiu.jpg" alt="Li李子球">
-            <figcaption class="member-name">Li李子球</figcaption>
-            <p class="member-role">XS工作室 | 管理</p>
-          </figure>
-          <figure class="member-card glass reveal" data-tilt>
-            <span class="member-idx">04</span>
-            <img class="member-avatar" src="images/avatar-dragonfruit.jpg" alt="dragon fruit">
-            <figcaption class="member-name">dragon fruit</figcaption>
-            <p class="member-role">XS工作室 | 管理</p>
-          </figure>
+        <div id="lg-root">
+          <div class="member-grid">
+            <figure class="member-card glass lg-glass reveal" data-tilt data-config='{"blurAmount":0.06,"refraction":0.18,"edgeHighlight":0.12,"fresnel":0.6,"cornerRadius":18,"opacity":0.92,"shadowOpacity":0.25,"shadowSpread":6,"shadowOffsetY":2}'>
+              <span class="member-idx">01</span>
+              <img class="member-avatar" src="images/avatar-xiaoshen.png" alt="小神">
+              <figcaption class="member-name">小神</figcaption>
+              <p class="member-role">XS工作室 | 负责人/创始人</p>
+            </figure>
+            <figure class="member-card glass lg-glass reveal" data-tilt data-config='{"blurAmount":0.06,"refraction":0.18,"edgeHighlight":0.12,"fresnel":0.6,"cornerRadius":18,"opacity":0.92,"shadowOpacity":0.25,"shadowSpread":6,"shadowOffsetY":2}'>
+              <span class="member-idx">02</span>
+              <img class="member-avatar" src="images/avatar-shenggua.jpg" alt="生瓜ewe（fukk）">
+              <figcaption class="member-name">生瓜ewe（fukk）</figcaption>
+              <p class="member-role">XS工作室 | 管理</p>
+            </figure>
+            <figure class="member-card glass lg-glass reveal" data-tilt data-config='{"blurAmount":0.06,"refraction":0.18,"edgeHighlight":0.12,"fresnel":0.6,"cornerRadius":18,"opacity":0.92,"shadowOpacity":0.25,"shadowSpread":6,"shadowOffsetY":2}'>
+              <span class="member-idx">03</span>
+              <img class="member-avatar" src="images/avatar-liziqiu.jpg" alt="Li李子球">
+              <figcaption class="member-name">Li李子球</figcaption>
+              <p class="member-role">XS工作室 | 管理</p>
+            </figure>
+            <figure class="member-card glass lg-glass reveal" data-tilt data-config='{"blurAmount":0.06,"refraction":0.18,"edgeHighlight":0.12,"fresnel":0.6,"cornerRadius":18,"opacity":0.92,"shadowOpacity":0.25,"shadowSpread":6,"shadowOffsetY":2}'>
+              <span class="member-idx">04</span>
+              <img class="member-avatar" src="images/avatar-dragonfruit.jpg" alt="dragon fruit">
+              <figcaption class="member-name">dragon fruit</figcaption>
+              <p class="member-role">XS工作室 | 管理</p>
+            </figure>
+          </div>
         </div>
       </div>
     </section>
@@ -178,52 +207,54 @@
       <div class="container">
         <p class="section-eyebrow reveal">成员作品</p>
         <h2 class="section-title reveal">成员热门作品</h2>
-        <div class="work-grid">
-          <article class="work-card glass reveal" data-tilt>
-            <div class="work-cover">
-              <img src="images/work-dragonfruit.jpg" alt="闲着没事做的低脂小动画" loading="lazy">
-              <span class="work-view" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg></span>
-            </div>
-            <div class="work-body">
-              <span class="work-author">来自 dragon fruit 的作品</span>
-              <h3 class="work-title">闲着没事做的低脂小动画。</h3>
-              <p class="work-desc">闲着没事做的低脂小动画。#甜瓜 #执法记录 #美式执法 #动画</p>
-              <a class="btn btn-outline" href="http://v.kuaishou.com/KPwKpQvZ" target="_blank" rel="noopener">
-                <span class="btn-text">前往快手查看</span>
-                <svg class="ic btn-ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg>
-              </a>
-            </div>
-          </article>
-          <article class="work-card glass reveal" data-tilt>
-            <div class="work-cover">
-              <img src="images/work-liziqiu.jpg" alt="Western shooter" loading="lazy">
-              <span class="work-view" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg></span>
-            </div>
-            <div class="work-body">
-              <span class="work-author">来自 Li李子球 的作品</span>
-              <h3 class="work-title">Western shooter</h3>
-              <p class="work-desc">【甜瓜动画】"Western shooter"</p>
-              <a class="btn btn-outline" href="http://b23.tv/dc9qNei" target="_blank" rel="noopener">
-                <span class="btn-text">前往B站查看</span>
-                <svg class="ic btn-ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg>
-              </a>
-            </div>
-          </article>
-          <article class="work-card glass reveal" data-tilt>
-            <div class="work-cover">
-              <img src="images/work-shenggua.jpg" alt="9+1骨骼动画" loading="lazy">
-              <span class="work-view" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg></span>
-            </div>
-            <div class="work-body">
-              <span class="work-author">来自 生瓜ewe (fukk) 的作品</span>
-              <h3 class="work-title">9+1骨骼动画</h3>
-              <p class="work-desc">9+1骨骼动画 #甜瓜游乐园 #骨骼动画 #甜瓜</p>
-              <a class="btn btn-outline" href="http://v.kuaishou.com/JDgKGIay" target="_blank" rel="noopener">
-                <span class="btn-text">前往快手查看</span>
-                <svg class="ic btn-ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg>
-              </a>
-            </div>
-          </article>
+        <div id="lg-works-root">
+          <div class="work-grid">
+            <article class="work-card glass lg-glass reveal" data-tilt data-config='{"blurAmount":0.06,"refraction":0.18,"edgeHighlight":0.12,"fresnel":0.6,"cornerRadius":18,"opacity":0.92,"shadowOpacity":0.25,"shadowSpread":6,"shadowOffsetY":2}'>
+              <div class="work-cover">
+                <img src="images/work-dragonfruit.jpg" alt="闲着没事做的低脂小动画" loading="lazy">
+                <span class="work-view" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg></span>
+              </div>
+              <div class="work-body">
+                <span class="work-author">来自 dragon fruit 的作品</span>
+                <h3 class="work-title">闲着没事做的低脂小动画。</h3>
+                <p class="work-desc">闲着没事做的低脂小动画。#甜瓜 #执法记录 #美式执法 #动画</p>
+                <a class="btn btn-outline" href="http://v.kuaishou.com/KPwKpQvZ" target="_blank" rel="noopener">
+                  <span class="btn-text">前往快手查看</span>
+                  <svg class="ic btn-ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg>
+                </a>
+              </div>
+            </article>
+            <article class="work-card glass lg-glass reveal" data-tilt data-config='{"blurAmount":0.06,"refraction":0.18,"edgeHighlight":0.12,"fresnel":0.6,"cornerRadius":18,"opacity":0.92,"shadowOpacity":0.25,"shadowSpread":6,"shadowOffsetY":2}'>
+              <div class="work-cover">
+                <img src="images/work-liziqiu.jpg" alt="Western shooter" loading="lazy">
+                <span class="work-view" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg></span>
+              </div>
+              <div class="work-body">
+                <span class="work-author">来自 Li李子球 的作品</span>
+                <h3 class="work-title">Western shooter</h3>
+                <p class="work-desc">【甜瓜动画】"Western shooter"</p>
+                <a class="btn btn-outline" href="http://b23.tv/dc9qNei" target="_blank" rel="noopener">
+                  <span class="btn-text">前往B站查看</span>
+                  <svg class="ic btn-ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg>
+                </a>
+              </div>
+            </article>
+            <article class="work-card glass lg-glass reveal" data-tilt data-config='{"blurAmount":0.06,"refraction":0.18,"edgeHighlight":0.12,"fresnel":0.6,"cornerRadius":18,"opacity":0.92,"shadowOpacity":0.25,"shadowSpread":6,"shadowOffsetY":2}'>
+              <div class="work-cover">
+                <img src="images/work-shenggua.jpg" alt="9+1骨骼动画" loading="lazy">
+                <span class="work-view" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg></span>
+              </div>
+              <div class="work-body">
+                <span class="work-author">来自 生瓜ewe (fukk) 的作品</span>
+                <h3 class="work-title">9+1骨骼动画</h3>
+                <p class="work-desc">9+1骨骼动画 #甜瓜游乐园 #骨骼动画 #甜瓜</p>
+                <a class="btn btn-outline" href="http://v.kuaishou.com/JDgKGIay" target="_blank" rel="noopener">
+                  <span class="btn-text">前往快手查看</span>
+                  <svg class="ic btn-ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up-right"/></svg>
+                </a>
+              </div>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -291,6 +322,7 @@
     </svg>
     <svg class="ic btt-ic" aria-hidden="true" focusable="false"><use href="#i-arrow-up"/></svg>
   </button>
+  <script src="assets/liquidglass/index.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

@@ -365,4 +365,46 @@ var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'))
     window.addEventListener('pointerdown', spawn, { passive: true });
   }
   initClickRing();
+
+  /* ===== LiquidGlass 液态玻璃效果（仅首页成员卡片和作品卡片） ===== */
+  (function initLiquidGlass() {
+    if (typeof LiquidGlass === 'undefined') return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var lgRoot = document.getElementById('lg-root');
+    var lgWorksRoot = document.getElementById('lg-works-root');
+
+    function initSection(rootId, selector) {
+      var root = document.getElementById(rootId);
+      if (!root) return;
+      // Wait for fonts and images to be ready
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () {
+          var cards = Array.prototype.slice.call(root.querySelectorAll(selector));
+          if (cards.length === 0) return;
+          LiquidGlass.init({
+            root: root,
+            glassElements: cards,
+            defaults: {
+              blurAmount: 0.06,
+              refraction: 0.18,
+              edgeHighlight: 0.12,
+              fresnel: 0.6,
+              cornerRadius: 18,
+              opacity: 0.92,
+              shadowOpacity: 0.25,
+              shadowSpread: 6,
+              shadowOffsetY: 2,
+            }
+          }).catch(function (e) {
+            console.warn('LiquidGlass init failed:', e);
+          });
+        });
+      }
+    }
+
+    initSection('lg-root', '.member-card.lg-glass');
+    initSection('lg-works-root', '.work-card.lg-glass');
+  })();
+
 })();
