@@ -386,15 +386,16 @@ var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'))
             root: root,
             glassElements: cards,
             defaults: {
-              blurAmount: 0.06,
-              refraction: 0.18,
-              edgeHighlight: 0.12,
-              fresnel: 0.6,
-              cornerRadius: 18,
-              opacity: 0.92,
-              shadowOpacity: 0.25,
-              shadowSpread: 6,
-              shadowOffsetY: 2,
+              blurAmount: 0.18,
+              refraction: 0.35,
+              edgeHighlight: 0.22,
+              fresnel: 0.8,
+              cornerRadius: 24,
+              opacity: 0.88,
+              shadowOpacity: 0.35,
+              shadowSpread: 10,
+              shadowOffsetY: 3,
+              brightness: 0.06,
             }
           }).catch(function (e) {
             console.warn('LiquidGlass init failed:', e);
