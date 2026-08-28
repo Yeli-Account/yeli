@@ -366,18 +366,14 @@ var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'))
   }
   initClickRing();
 
-  /* ===== LiquidGlass 液态玻璃效果（仅首页成员卡片和作品卡片） ===== */
+  /* ===== LiquidGlass 液态玻璃效果 ===== */
   (function initLiquidGlass() {
     if (typeof LiquidGlass === 'undefined') return;
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    var lgRoot = document.getElementById('lg-root');
-    var lgWorksRoot = document.getElementById('lg-works-root');
-
     function initSection(rootId, selector) {
       var root = document.getElementById(rootId);
       if (!root) return;
-      // Wait for fonts and images to be ready
       if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(function () {
           var cards = Array.prototype.slice.call(root.querySelectorAll(selector));
@@ -397,13 +393,10 @@ var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'))
               shadowOffsetY: 3,
               brightness: 0.06,
             }
-          }).catch(function (e) {
-            console.warn('LiquidGlass init failed:', e);
-          });
+          }).catch(function (e) { console.warn('LiquidGlass init failed:', e); });
         });
       }
     }
-
     initSection('lg-root', '.member-card.lg-glass');
     initSection('lg-works-root', '.work-card.lg-glass');
   })();
